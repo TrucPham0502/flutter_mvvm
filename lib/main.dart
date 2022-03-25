@@ -1,13 +1,15 @@
-import 'dart:developer';
+import 'package:mvvm/data_model.dart';
+
+import 'injection.dart';
 
 import 'package:flutter/material.dart';
-import 'package:mvvm/Data_Model.dart';
 import 'package:mvvm/base.dart';
 import 'package:mvvm/mainviewmodel.dart';
 import 'extension.dart';
 import 'package:rxdart/rxdart.dart';
 
 void main() {
+  configureDependencies();
   runApp(const MyApp());
 }
 
@@ -48,7 +50,7 @@ class MyHomePage extends BaseStatefulWidgetPage<MainViewModel> {
 class _MyHomePageState extends BaseStatePage<MainViewModel, MyHomePage> {
   final _textSearchController = TextEditingController();
   final textSearch = PublishSubject<String>();
-  List<DataModel> data = [];
+  List<Album> data = [];
   @override
   void initState() {
     super.initState();
