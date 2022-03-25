@@ -1,18 +1,13 @@
-import 'dart:developer';
+import 'package:mvvm/core/base/base_stateful_widget_page.dart';
+import 'package:mvvm/core/base/base_viewmodel.dart';
+
+import '../rx/disposable_widget.dart';
 
 import 'package:flutter/material.dart';
-import 'base_viewmodel.dart';
-import 'extension.dart';
+
+import '../rx/error.dart';
 
 abstract class Presenter {}
-
-abstract class BaseStatefulWidgetPage<VM extends BaseViewModel>
-    extends StatefulWidget implements Presenter {
-  BaseStatefulWidgetPage({Key? key}) : super(key: key);
-  late ErrorTracker errorTracker;
-  late ActivityIndicator activityIndicator;
-  VM get viewModel;
-}
 
 abstract class BaseStatePage<VM extends BaseViewModel,
         P extends BaseStatefulWidgetPage<VM>> extends State<P>

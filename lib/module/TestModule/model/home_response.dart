@@ -1,5 +1,5 @@
-class Album {
-  Album({
+class HomeResponse {
+  HomeResponse({
     required this.albumId,
     required this.id,
     required this.title,
@@ -13,7 +13,7 @@ class Album {
   final String url;
   final String thumbnailUrl;
 
-  factory Album.fromJson(Map<String, dynamic> json) => Album(
+  factory HomeResponse.fromJson(Map<String, dynamic> json) => HomeResponse(
         albumId: json["albumId"],
         id: json["id"],
         title: json["title"],
