@@ -15,12 +15,18 @@ class DetailPage extends BaseStatefulWidgetPage<DetailViewModel> {
   DetailViewModel get viewModel => DetailViewModel();
 }
 
-class _DetailPageState extends BaseStatePage<DetailViewModel, DetailPage> {
+class _DetailPageState extends BaseStatePage<DetailViewModel,
+    DetailViewModelInput, DetailViewModelOutput, DetailPage> {
   @override
   PreferredSizeWidget appBar(BuildContext context) {
     return AppBar(
       title: Text("${widget.data.id}"),
     );
+  }
+
+  @override
+  DetailViewModelInput makeInput() {
+    return DetailViewModelInput();
   }
 
   @override

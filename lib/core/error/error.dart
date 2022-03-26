@@ -8,3 +8,8 @@ class ApiError extends AppError {
   ApiError({required String message, required int code})
       : super(message: message, code: code);
 }
+
+class ResponseError extends AppError {
+  ResponseError({required String message, required int code})
+      : super(message: message, code: code);
+}

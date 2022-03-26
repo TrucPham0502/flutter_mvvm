@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:mvvm/core/error/error.dart';
+
 enum ApiMethod { post, get }
 
 class ApiRequestManager {
@@ -12,32 +14,25 @@ class ApiRequestManager {
       String? parameter,
       Map<String, String>? header}) async* {
     final http.Response response;
+    Map<String, String> _header = {'Content-type': 'application/json'};
+    if (header != null) {
+      _header.addAll(header);
+    }
     switch (method) {
       case ApiMethod.get:
-        response = await http.get(Uri.parse(url), headers: header);
+        response = await http.get(Uri.parse(url), headers: _header);
         break;
       case ApiMethod.post:
-        response = await http.post(Uri.parse(url),
-            headers: {'Content-type': 'application/json'}, body: parameter);
+        response =
+            await http.post(Uri.parse(url), headers: _header, body: parameter);
     }
     if (200 <= response.statusCode && response.statusCode <= 299) {
       log(response.body);
       yield convert(const Utf8Decoder().convert(response.bodyBytes));
     } else {
-      throw Exception('Failed to load data');
+      throw ResponseError(
+          message: "Response Error ${response.statusCode}",
+          code: response.statusCode);
     }
-  }
-
-  static List<T> stringToList<T>(
-      String response, T Function(Map<String, dynamic>) convert) {
-    Iterable l = json.decode(response);
-    List<T> res = List<T>.from(l.map((model) => convert(model)));
-    return res;
-  }
-
-  static List<T> iterableToList<T>(
-      Iterable l, T Function(Map<String, dynamic>) convert) {
-    List<T> res = List<T>.from(l.map((model) => convert(model)));
-    return res;
   }
 }

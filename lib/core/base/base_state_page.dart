@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 
 abstract class Presenter {}
 
-abstract class BaseStatePage<VM extends BaseViewModel,
+abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
         P extends BaseStatefulWidgetPage<VM>> extends State<P>
     with DisposableWidget
     implements Presenter {
   late VM viewModel;
+  late O output;
   final viewDidApearing = PublishSubject();
   bool _isLoading = false;
   @override
@@ -49,6 +50,7 @@ abstract class BaseStatePage<VM extends BaseViewModel,
     );
   }
 
+  I makeInput();
   void performBinding() {
     widget.errorTracker = viewModel.errorTracker;
     widget.activityIndicator = viewModel.activityIndicator;
@@ -60,6 +62,7 @@ abstract class BaseStatePage<VM extends BaseViewModel,
         _isLoading = event;
       });
     }).canceledBy(this);
+    output = viewModel.transform(makeInput());
   }
 
   void handleError(Object error) {

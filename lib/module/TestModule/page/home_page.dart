@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/core/rx/disposable_widget.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/module/TestModule/page/detail_page.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,7 +17,8 @@ class MyHomePage extends BaseStatefulWidgetPage<HomeViewModel> {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends BaseStatePage<HomeViewModel, MyHomePage> {
+class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
+    HomeViewModelOutput, MyHomePage> {
   final _textSearchController = TextEditingController();
   final textSearch = PublishSubject<String>();
   List<HomeResponse> data = [];
@@ -28,15 +28,8 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, MyHomePage> {
   }
 
   @override
-  void performBinding() {
-    super.performBinding();
-    final output =
-        viewModel.transform(HomeViewModelInput(textSearch, viewDidApearing));
-    output.items.listen((event) {
-      setState(() {
-        data = event;
-      });
-    }).canceledBy(this);
+  HomeViewModelInput makeInput() {
+    return HomeViewModelInput(textSearch, viewDidApearing);
   }
 
   @override
@@ -71,32 +64,39 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, MyHomePage> {
           ),
         ),
         Expanded(
-          child: ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                final d = data[index];
-                return ListTile(
-                  title: Text(d.title),
-                  leading: Container(
-                    alignment: Alignment.center,
-                    width: 50.0,
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.0),
-                        image: DecorationImage(
-                            image: NetworkImage(d.thumbnailUrl),
-                            fit: BoxFit.cover)),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DetailPage(data: d)));
-                  },
-                );
-              }),
+          child: StreamBuilder<List<HomeResponse>>(
+            initialData: const [],
+            stream: output.items,
+            builder: (context, snapShot) {
+              data = snapShot.data!;
+              return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final d = data[index];
+                    return ListTile(
+                      title: Text(d.title),
+                      leading: Container(
+                        alignment: Alignment.center,
+                        width: 50.0,
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            image: DecorationImage(
+                                image: NetworkImage(d.thumbnailUrl),
+                                fit: BoxFit.cover)),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DetailPage(data: d)));
+                      },
+                    );
+                  });
+            },
+          ),
         ),
       ],
     );

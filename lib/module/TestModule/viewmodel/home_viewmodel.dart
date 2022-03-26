@@ -20,7 +20,8 @@ class HomeViewModelOutput {
   HomeViewModelOutput(this.items);
 }
 
-class HomeViewModel extends BaseViewModel {
+class HomeViewModel
+    extends BaseViewModel<HomeViewModelInput, HomeViewModelOutput> {
   final BehaviorProperty<List<HomeResponse>> items =
       BehaviorProperty<List<HomeResponse>>([]);
   final service = getIt.get<HomeService>();
@@ -34,6 +35,7 @@ class HomeViewModel extends BaseViewModel {
     });
   }
 
+  @override
   HomeViewModelOutput transform(HomeViewModelInput input) {
     MergeStream([
       input.textSearch.debounceTime(const Duration(seconds: 1)),
