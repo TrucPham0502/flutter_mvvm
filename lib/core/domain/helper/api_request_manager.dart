@@ -17,20 +17,26 @@ class ApiRequestManager {
         response = await http.get(Uri.parse(url), headers: header);
         break;
       case ApiMethod.post:
-        response =
-            await http.post(Uri.parse(url), headers: header, body: parameter);
+        response = await http.post(Uri.parse(url),
+            headers: {'Content-type': 'application/json'}, body: parameter);
     }
-    if (response.statusCode == 200) {
+    if (200 <= response.statusCode && response.statusCode <= 299) {
       log(response.body);
-      yield convert(response.body);
+      yield convert(const Utf8Decoder().convert(response.bodyBytes));
     } else {
       throw Exception('Failed to load data');
     }
   }
 
-  static List<T> convertToList<T>(
+  static List<T> stringToList<T>(
       String response, T Function(Map<String, dynamic>) convert) {
     Iterable l = json.decode(response);
+    List<T> res = List<T>.from(l.map((model) => convert(model)));
+    return res;
+  }
+
+  static List<T> iterableToList<T>(
+      Iterable l, T Function(Map<String, dynamic>) convert) {
     List<T> res = List<T>.from(l.map((model) => convert(model)));
     return res;
   }

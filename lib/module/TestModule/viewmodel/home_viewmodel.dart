@@ -11,7 +11,8 @@ import '../../../core/rx/stream.dart';
 
 class HomeViewModelInput {
   Stream<String> textSearch;
-  HomeViewModelInput(this.textSearch);
+  Stream viewDidApearing;
+  HomeViewModelInput(this.textSearch, this.viewDidApearing);
 }
 
 class HomeViewModelOutput {
@@ -24,11 +25,20 @@ class HomeViewModel extends BaseViewModel {
       BehaviorProperty<List<HomeResponse>>([]);
   final service = getIt.get<HomeService>();
   Stream<List<HomeResponse>> getData(String text) {
-    return service.getData();
+    return service.getData().flatMap((value) {
+      if (text.isEmpty) {
+        return Stream.value(value);
+      }
+      return Stream.value(
+          value.where((element) => element.title.contains(text)).toList());
+    });
   }
 
   HomeViewModelOutput transform(HomeViewModelInput input) {
-    input.textSearch.debounceTime(const Duration(seconds: 1)).flatMap((value) {
+    MergeStream([
+      input.textSearch.debounceTime(const Duration(seconds: 1)),
+      input.viewDidApearing.map((event) => "")
+    ]).flatMap((value) {
       return getData(value)
           .trackActivity(activityIndicator)
           .trackError(errorTracker);

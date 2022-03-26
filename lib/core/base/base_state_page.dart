@@ -1,11 +1,11 @@
 import 'package:mvvm/core/base/base_stateful_widget_page.dart';
 import 'package:mvvm/core/base/base_viewmodel.dart';
+import 'package:rxdart/rxdart.dart';
 
+import '../error/error.dart';
 import '../rx/disposable_widget.dart';
 
 import 'package:flutter/material.dart';
-
-import '../rx/error.dart';
 
 abstract class Presenter {}
 
@@ -14,12 +14,14 @@ abstract class BaseStatePage<VM extends BaseViewModel,
     with DisposableWidget
     implements Presenter {
   late VM viewModel;
+  final viewDidApearing = PublishSubject();
   bool _isLoading = false;
   @override
   void initState() {
     viewModel = widget.viewModel;
     performBinding();
     super.initState();
+    viewDidApearing.add(1);
   }
 
   @override
