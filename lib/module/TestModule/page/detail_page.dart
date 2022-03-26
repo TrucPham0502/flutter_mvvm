@@ -5,14 +5,11 @@ import 'package:mvvm/module/TestModule/model/home_response.dart';
 import '../../../core/base/base_state_page.dart';
 import '../viewmodel/detail_viewmodel.dart';
 
-class DetailPage extends BaseStatefulWidgetPage<DetailViewModel> {
-  DetailPage({Key? key, required this.data}) : super(key: key);
-  HomeResponse data;
+class DetailPage extends BaseStatefulWidgetPage {
+  final HomeResponse data;
+  const DetailPage({Key? key, required this.data}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _DetailPageState();
-
-  @override
-  DetailViewModel get viewModel => DetailViewModel();
 }
 
 class _DetailPageState extends BaseStatePage<DetailViewModel,
@@ -22,6 +19,11 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
     return AppBar(
       title: Text("${widget.data.id}"),
     );
+  }
+
+  @override
+  DetailViewModel makeViewModel() {
+    return DetailViewModel();
   }
 
   @override

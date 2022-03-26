@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/module/TestModule/page/detail_page.dart';
@@ -7,10 +9,9 @@ import '../../../core/base/base_state_page.dart';
 import '../../../core/base/base_stateful_widget_page.dart';
 import '../viewmodel/home_viewmodel.dart';
 
-class MyHomePage extends BaseStatefulWidgetPage<HomeViewModel> {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-  @override
-  HomeViewModel get viewModel => HomeViewModel();
+class MyHomePage extends BaseStatefulWidgetPage {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
   final String title;
 
   @override
@@ -28,6 +29,11 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
   }
 
   @override
+  HomeViewModel makeViewModel() {
+    return HomeViewModel();
+  }
+
+  @override
   HomeViewModelInput makeInput() {
     return HomeViewModelInput(textSearch, viewDidApearing);
   }
@@ -40,9 +46,16 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
 
   @override
   PreferredSizeWidget appBar(BuildContext context) {
-    return AppBar(
-      title: Text(widget.title),
-    );
+    return AppBar(title: Text(widget.title), actions: <Widget>[
+      FlatButton(
+        textColor: Colors.white,
+        onPressed: () {
+          log("ssssss");
+        },
+        child: Text("Save"),
+        shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+      ),
+    ]);
   }
 
   @override

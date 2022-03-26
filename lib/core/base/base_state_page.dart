@@ -1,5 +1,8 @@
 import 'package:mvvm/core/base/base_stateful_widget_page.dart';
 import 'package:mvvm/core/base/base_viewmodel.dart';
+import 'package:mvvm/core/rx/activity_indicator.dart';
+import 'package:mvvm/core/rx/error_tracker.dart';
+import 'package:mvvm/core/service/progress_hub.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../error/error.dart';
@@ -10,16 +13,18 @@ import 'package:flutter/material.dart';
 abstract class Presenter {}
 
 abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
-        P extends BaseStatefulWidgetPage<VM>> extends State<P>
+        P extends BaseStatefulWidgetPage> extends State<P>
     with DisposableWidget
     implements Presenter {
+  late ErrorTracker errorTracker;
+  late ActivityIndicator activityIndicator;
   late VM viewModel;
   late O output;
   final viewDidApearing = PublishSubject();
-  bool _isLoading = false;
+  late BuildContext loaderContext;
   @override
   void initState() {
-    viewModel = widget.viewModel;
+    viewModel = makeViewModel();
     performBinding();
     super.initState();
     viewDidApearing.add(1);
@@ -27,16 +32,10 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widget = [appBody(context)];
-    if (_isLoading) {
-      widget.add(const CircularProgressIndicator());
-    }
     return Scaffold(
-        appBar: appBar(context),
-        body: Center(
-          child:
-              Stack(alignment: AlignmentDirectional.center, children: widget),
-        ));
+      appBar: appBar(context),
+      body: appBody(context),
+    );
   }
 
   PreferredSizeWidget? appBar(BuildContext context) {
@@ -50,17 +49,22 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
     );
   }
 
+  VM makeViewModel();
   I makeInput();
   void performBinding() {
-    widget.errorTracker = viewModel.errorTracker;
-    widget.activityIndicator = viewModel.activityIndicator;
-    widget.errorTracker.asStream().listen((event) {
+    errorTracker = viewModel.errorTracker;
+    activityIndicator = viewModel.activityIndicator;
+    errorTracker.asStream().listen((event) {
       handleError(event);
     }).canceledBy(this);
-    widget.activityIndicator.asStream().listen((event) {
-      setState(() {
-        _isLoading = event;
-      });
+    activityIndicator.asStream().listen((event) {
+      if (event) {
+        Loader.show(context,
+            progressIndicator: const CircularProgressIndicator(),
+            overlayColor: Colors.black.withOpacity(0.3));
+      } else {
+        Loader.hide();
+      }
     }).canceledBy(this);
     output = viewModel.transform(makeInput());
   }
@@ -76,6 +80,7 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
   @override
   void dispose() {
     cancelSubscriptions();
+    Loader.hide();
     super.dispose();
   }
 }
