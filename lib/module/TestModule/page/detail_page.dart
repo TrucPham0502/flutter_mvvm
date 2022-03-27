@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/core/base/base_stateful_widget_page.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
-
-import '../../../core/base/base_state_page.dart';
+import 'package:mvvm/core/core.dart';
 import '../viewmodel/detail_viewmodel.dart';
 
 class DetailPage extends BaseStatefulWidgetPage {
@@ -17,8 +15,8 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
   @override
   PreferredSizeWidget appBar(BuildContext context) {
     return AppBar(
-      title: Text("${widget.data.id}"),
-    );
+        // title: Text(AppLocalizations.of(context)!.helloWorld),
+        );
   }
 
   @override

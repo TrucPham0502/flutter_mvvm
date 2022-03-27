@@ -1,4 +1,4 @@
-import 'package:mvvm/core/base/base_service.dart';
+import 'package:mvvm/core/core.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/module/TestModule/repositories/test_repository.dart';
 

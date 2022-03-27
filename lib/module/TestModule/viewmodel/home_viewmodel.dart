@@ -1,13 +1,7 @@
-import 'package:mvvm/core/rx/activity_indicator.dart';
-import 'package:mvvm/core/rx/disposable_widget.dart';
-import 'package:mvvm/core/rx/error_tracker.dart';
+import 'package:mvvm/core/core.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/module/TestModule/service/home_service.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../../../core/base/base_viewmodel.dart';
-import '../../../core/injection/injection.dart';
-import '../../../core/rx/stream.dart';
 
 class HomeViewModelInput {
   Stream<String> textSearch;

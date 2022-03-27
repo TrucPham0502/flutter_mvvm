@@ -1,8 +1,5 @@
-import 'package:mvvm/core/base/base_remote_source.dart';
-import 'package:mvvm/core/domain/model/api_response.dart';
-import 'package:mvvm/module/TestModule/model/home_response.dart';
-
-import '../../../core/domain/helper/api_request_manager.dart';
+import 'package:mvvm/core/core.dart';
+import '../model/home_response.dart';
 
 abstract class TestRemoteSource extends BaseRemoteSource {
   Stream<ApiResponse<List<HomeResponse>>> getData();

@@ -1,13 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:mvvm/module/TestModule/model/home_response.dart';
-import 'package:mvvm/module/TestModule/page/detail_page.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../../../core/base/base_state_page.dart';
-import '../../../core/base/base_stateful_widget_page.dart';
+import 'package:mvvm/core/core.dart';
+import '../model/home_response.dart';
 import '../viewmodel/home_viewmodel.dart';
+import 'detail_page.dart';
 
 class MyHomePage extends BaseStatefulWidgetPage {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -52,8 +50,8 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
         onPressed: () {
           log("ssssss");
         },
-        child: Text("Save"),
-        shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+        child: const Text("Save"),
+        shape: const CircleBorder(side: BorderSide(color: Colors.transparent)),
       ),
     ]);
   }
