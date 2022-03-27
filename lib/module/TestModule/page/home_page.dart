@@ -48,9 +48,9 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
       FlatButton(
         textColor: Colors.white,
         onPressed: () {
-          log("ssssss");
+          // Intl.defaultLocale = 'en';
         },
-        child: const Text("Save"),
+        child: const Text("change"),
         shape: const CircleBorder(side: BorderSide(color: Colors.transparent)),
       ),
     ]);

@@ -7,6 +7,8 @@ export 'rx/stream.dart';
 export 'error/error.dart';
 export 'injection/injection.dart';
 export 'package:get_it/get_it.dart';
+export 'package:flutter_gen/gen_l10n/app_localizations.dart';
+export 'package:intl/intl.dart';
 
 export 'base/base_remote_source.dart';
 export 'base/base_repository.dart';

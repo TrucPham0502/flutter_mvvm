@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/core/core.dart';
+import '../../../app_gen_assets.dart';
 import '../viewmodel/detail_viewmodel.dart';
 
 class DetailPage extends BaseStatefulWidgetPage {
@@ -15,8 +16,8 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
   @override
   PreferredSizeWidget appBar(BuildContext context) {
     return AppBar(
-        // title: Text(AppLocalizations.of(context)!.helloWorld),
-        );
+      title: Text(AppLocalizations.of(context)!.helloWorld3),
+    );
   }
 
   @override
@@ -41,7 +42,8 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
           height: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),
-        Text(widget.data.title)
+        Text(widget.data.title),
+        Image.asset(AppGenAssets.testImageJPEG)
       ],
     );
   }

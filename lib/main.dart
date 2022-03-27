@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'module/TestModule/page/home_page.dart';
 import 'module/module.dart';
+import 'package:mvvm/core/core.dart';
 
 void main() {
   configureDependencies();
@@ -14,11 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(Intl.getCurrentLocale()),
       theme: ThemeData(
           primarySwatch: Colors.blue,
           textTheme: const TextTheme(
-            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
             bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           )),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
