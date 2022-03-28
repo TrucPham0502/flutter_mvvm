@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/gen/assets.gen.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/core/core.dart';
-import '../../../app_gen_assets.dart';
 import '../viewmodel/detail_viewmodel.dart';
 
 class DetailPage extends BaseStatefulWidgetPage {
@@ -43,7 +43,7 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
           fit: BoxFit.cover,
         ),
         Text(widget.data.title),
-        Image.asset(AppGenAssets.testImageJPEG)
+        Assets.images.testImage.image()
       ],
     );
   }
