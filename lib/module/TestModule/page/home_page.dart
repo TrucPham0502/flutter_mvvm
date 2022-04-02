@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:mvvm/colors.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:mvvm/core/core.dart';
 import '../model/home_response.dart';
@@ -44,16 +45,15 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
 
   @override
   PreferredSizeWidget appBar(BuildContext context) {
-    return AppBar(title: Text(widget.title), actions: <Widget>[
-      FlatButton(
-        textColor: Colors.white,
-        onPressed: () {
-          // Intl.defaultLocale = 'en';
-        },
-        child: const Text("change"),
-        shape: const CircleBorder(side: BorderSide(color: Colors.transparent)),
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      centerTitle: false,
+      elevation: 0,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        // child: CircleAvatar(radius: 25, backgroundImage: ,),
       ),
-    ]);
+    );
   }
 
   @override
