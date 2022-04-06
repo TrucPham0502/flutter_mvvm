@@ -228,7 +228,7 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
                   text: "Welcome Back",
                   color: AppColors.white,
                   fontWeight: FontWeight.w900,
-                  size: 32,
+                  size: 40,
                 ),
                 const SizedBox(
                   height: 50,

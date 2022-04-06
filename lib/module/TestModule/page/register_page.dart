@@ -228,7 +228,7 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
                         text: "Create Account",
                         color: AppColors.white,
                         fontWeight: FontWeight.w900,
-                        size: 32,
+                        size: 40,
                       ),
                       const SizedBox(
                         height: 50,
