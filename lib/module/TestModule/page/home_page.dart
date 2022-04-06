@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -29,29 +28,14 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
   final _textSearchController = TextEditingController();
   final textSearch = PublishSubject<String>();
   final scrollController = ScrollController();
-  final headerScrollController = PageController(viewportFraction: 0.4);
+  final PageController headerScrollController =
+      PageController(viewportFraction: 0.4, initialPage: 1);
   List<HomeResponse> data = [];
-  final double maxHeight = 460.0;
-  double headerHeight = 460.0;
-  double opacity = 1;
   int selectedFoodCard = 0;
-  var disableScrolling = true;
-  var isReverse = false;
 
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(() {
-      setState(() {
-        log("${scrollController.position.userScrollDirection}");
-        disableScrolling = (scrollController.position.userScrollDirection ==
-                    ScrollDirection.reverse &&
-                headerHeight > 0) ||
-            (scrollController.offset == 0 &&
-                scrollController.position.userScrollDirection ==
-                    ScrollDirection.forward);
-      });
-    });
   }
 
   @override
@@ -108,8 +92,9 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
           stream: output.foodCategoryitems.subject,
           builder: (context, snapshot) {
             return PageView.builder(
+                allowImplicitScrolling: true,
                 onPageChanged: (int index) =>
-                    setState(() => selectedFoodCard = index),
+                    {setState(() => selectedFoodCard = index)},
                 physics: const PageScrollPhysics(),
                 controller: headerScrollController,
                 scrollDirection: Axis.horizontal,
@@ -193,9 +178,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
         stream: output.popularFoodItems.subject,
         builder: (context, snapshot) {
           return ListView.builder(
-              physics: disableScrolling
-                  ? const NeverScrollableScrollPhysics()
-                  : const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: true,
               controller: scrollController,
               itemCount: output.popularFoodItems.value.length,
               itemBuilder: (context, index) {
@@ -341,151 +324,94 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
         topMediumCircleColor: AppColors.onPrimary,
         topRightCircleColor: AppColors.onPrimary,
         bottomRightCircleColor: AppColors.lightGray,
-        child: GestureDetector(
-            onVerticalDragUpdate: (a) {
-              setState(() {
-                log("${a.delta.dy}");
-                isReverse = a.delta.dy > 0;
-                if (isReverse) {
-                  // xuong
-                  headerHeight =
-                      (math.min(headerHeight + a.delta.dy, maxHeight));
-                  opacity =
-                      math.min(opacity + (a.delta.dy.abs() / maxHeight), 1);
-                } else {
-                  // len
-                  headerHeight = (math.max(headerHeight + a.delta.dy, 0));
-                  opacity =
-                      math.max(opacity - (a.delta.dy.abs() / maxHeight), 0);
-                }
-              });
-            },
-            onVerticalDragStart: (a) {
-              disableScrolling = headerHeight > 0;
-            },
-            onVerticalDragEnd: (a) {
-              log("${a.primaryVelocity} - ${a.velocity}");
-              if (!isReverse) {
-                headerHeight = 0;
-                opacity = 0;
-              } else {
-                headerHeight = maxHeight;
-                opacity = 1;
-              }
-              disableScrolling = headerHeight > 0;
-              setState(() {});
-            },
-            child: Stack(
-              // crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: headerHeight,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10, left: 20),
-                      child: PrimaryText(
-                        text: "Popular",
-                        fontWeight: FontWeight.w700,
-                        size: 22,
-                      ),
-                    ),
-                    Expanded(
-                        child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 20, bottom: 15),
-                      child: _popular(context),
-                    )),
-                  ],
-                ),
-                Positioned(
-                    top: -1 * math.max(maxHeight - headerHeight, 0),
-                    left: 0,
-                    right: 0,
-                    child: Opacity(
-                      opacity: opacity,
-                      child: SizedBox(
-                        child: SingleChildScrollView(
-                          clipBehavior: Clip.antiAlias,
-                          physics: const NeverScrollableScrollPhysics(),
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 25),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 20),
-                                      child: PrimaryText(
-                                        text: "Food",
-                                        size: 22,
-                                      )),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: PrimaryText(
-                                      text: "Delivery",
-                                      height: 1.1,
-                                      size: 42,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: const [
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Icon(
-                                        Icons.search,
-                                        color: AppColors.secondary,
-                                        size: 25,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: TextField(
-                                            decoration: InputDecoration(
-                                                enabledBorder:
-                                                    UnderlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      width: 2,
-                                                      color:
-                                                          AppColors.lightGray),
-                                                ),
-                                                hintText: 'Search...',
-                                                hintStyle: TextStyle(
-                                                    color: AppColors.lightGray,
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.w500))),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 25),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: PrimaryText(
-                                      text: "Categories",
-                                      size: 22,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  _category(context),
-                                ]),
-                          ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 25),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: PrimaryText(
+                            text: "Food",
+                            size: 22,
+                          )),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: PrimaryText(
+                          text: "Delivery",
+                          height: 1.1,
+                          size: 42,
                         ),
                       ),
-                    )),
-              ],
-            )));
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Icon(
+                            Icons.search,
+                            color: AppColors.secondary,
+                            size: 25,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: TextField(
+                                decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 2, color: AppColors.lightGray),
+                                    ),
+                                    hintText: 'Search...',
+                                    hintStyle: TextStyle(
+                                        color: AppColors.lightGray,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500))),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 25),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: PrimaryText(
+                          text: "Categories",
+                          size: 22,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      _category(context),
+                    ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, left: 20, bottom: 15),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10, left: 20),
+                        child: PrimaryText(
+                          text: "Popular",
+                          fontWeight: FontWeight.w700,
+                          size: 22,
+                        ),
+                      ),
+                      _popular(context)
+                    ]),
+              ),
+            ],
+          ),
+        ));
   }
 }

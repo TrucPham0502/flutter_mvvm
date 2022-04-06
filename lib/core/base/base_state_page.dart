@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:mvvm/core/base/base_stateful_widget_page.dart';
 import 'package:mvvm/core/base/base_viewmodel.dart';
 import 'package:mvvm/core/rx/activity_indicator.dart';
@@ -32,14 +34,22 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBar(context),
-      body: appBody(context),
+    return GestureDetector(
+      onTap: () => hideKeyboard(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: appBar(context),
+        body: appBody(context),
+      ),
     );
   }
 
   PreferredSizeWidget? appBar(BuildContext context) {
     return null;
+  }
+
+  void hideKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 
   Widget appBody(BuildContext context) {
