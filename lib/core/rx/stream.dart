@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:mvvm/core/domain/model/api_response.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -26,5 +29,24 @@ extension DataTrackerStreamSubscriton<T> on Stream<ApiResponse<T>> {
         throw ApiError(message: event.message, code: event.resultCode);
       }
     });
+  }
+}
+
+extension AppStream<T> on Stream<T> {
+  StreamSubscription<T> drive(BehaviorProperty<T> data) {
+    return listen((event) {
+      data.add(event);
+    });
+  }
+}
+
+extension AppWidget<T> on Widget {
+  StreamBuilder<T> setState(BehaviorProperty<T> data, T? initialData) {
+    return StreamBuilder(
+        initialData: initialData,
+        stream: data.subject,
+        builder: (context, snap) {
+          return this;
+        });
   }
 }

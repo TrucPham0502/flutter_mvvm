@@ -2,27 +2,27 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import "package:yaml/yaml.dart";
 
-void run() {
+void main() {
   createFile();
 }
 
 void createFile() {
-  var file =
-      File(path.join("/Users/trucpham/Desktop/flutter_mvvm", 'pubspec.yaml'));
+  var file = File(path.join(Directory.current.path, 'pubspec.yaml'));
   file.readAsString().then((String contents) {
     final mapData = loadYaml(contents);
     var images = mapData['flutter']['assets'] as List<dynamic>;
     var classFile =
-        File('/Users/trucpham/Desktop/flutter_mvvm/lib/app_gen_assets.dart');
-    var output = classFile.openWrite();
-    output.write('class AppGenAssets {\n');
+        File(path.join(Directory.current.path, 'lib/app_gen_assets.dart'));
+    var content = 'class AppGenAssets {\n';
     for (var image in images) {
       final fileName = image.toString().split('/').last;
       final name = fileName.split('.').first;
       final ext = fileName.split('.').last;
-      output.write("\t static String $name${ext.toUpperCase()} = '$image';\n");
+      content + "\t static String $name${ext.toUpperCase()} = '$image';\n";
     }
-    output.write("}");
+    content + "}";
+    var output = classFile.openWrite();
+    output.write(content);
     output.close();
   });
 }
