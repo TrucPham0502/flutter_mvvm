@@ -41,7 +41,7 @@ class _MenuDashboard extends State<MenuDashboard>
             .animate(_controller);
     _menuScaleAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
     _menuTranslateZAnimation =
-        Tween<double>(begin: 0, end: -math.pi / 15).animate(_controller);
+        Tween<double>(begin: 0, end: 10 * math.pi / 180).animate(_controller);
   }
 
   void setPage(int index) {
@@ -97,8 +97,8 @@ class _MenuDashboard extends State<MenuDashboard>
     return AnimatedPositioned(
       top: 0,
       bottom: 0,
-      left: _isCollapsed ? 0 : 0.15 * _screenWidth,
-      right: _isCollapsed ? 0 : -0.15 * _screenWidth,
+      left: _isCollapsed ? 0 : 0.5 * _screenWidth,
+      right: _isCollapsed ? 0 : -0.5 * _screenWidth,
       duration: _duration,
       child: AnimatedBuilder(
         animation: _menuTranslateZAnimation,
