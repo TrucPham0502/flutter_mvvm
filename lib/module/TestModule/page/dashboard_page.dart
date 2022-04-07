@@ -12,7 +12,7 @@ class DasboardPage extends MenuDashboard {
 
   @override
   List<Widget> dashboard(BuildContext context) {
-    return const [MyHomePage(), LoginPage()];
+    return const [MyHomePage()];
   }
 
   @override

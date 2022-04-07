@@ -41,7 +41,7 @@ class _MenuDashboard extends State<MenuDashboard>
             .animate(_controller);
     _menuScaleAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
     _menuTranslateZAnimation =
-        Tween<double>(begin: 0, end: -math.pi / 10).animate(_controller);
+        Tween<double>(begin: 0, end: -math.pi / 15).animate(_controller);
   }
 
   void setPage(int index) {
@@ -65,10 +65,11 @@ class _MenuDashboard extends State<MenuDashboard>
     _screenWidth = MediaQuery.of(context).size.width;
     _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.onPrimary,
       body: GestureDetector(
         onTap: () => toggle(),
-        child: SizedBox(
+        child: Container(
+          decoration: const BoxDecoration(color: AppColors.primary),
           width: _screenWidth,
           height: _screenHeight,
           child: Stack(children: [_menu(context), _dashboard(context)]),

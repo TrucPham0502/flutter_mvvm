@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           textTheme: const TextTheme(
             bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           )),
-      home: DasboardPage(),
+      home: const DasboardPage(),
     );
   }
 }
