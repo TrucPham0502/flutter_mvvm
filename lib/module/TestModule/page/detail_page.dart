@@ -40,7 +40,10 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
   @override
   Widget appBody(BuildContext context) {
     return CirclesBackground(
-        isSafeArea: false,
+        isSafeAreaTop: false,
+        isSafeAreaBottom: false,
+        isSafeAreaLeft: false,
+        isSafeAreaRight: false,
         backgroundColor: AppColors.onPrimary,
         topSmallCircleColor: AppColors.onPrimary,
         topMediumCircleColor: AppColors.onPrimary,

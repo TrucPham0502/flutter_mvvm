@@ -7,7 +7,10 @@ class CirclesBackground extends StatelessWidget {
   final Color topMediumCircleColor;
   final Color topRightCircleColor;
   final Color bottomRightCircleColor;
-  final bool isSafeArea;
+  final bool isSafeAreaTop;
+  final bool isSafeAreaBottom;
+  final bool isSafeAreaLeft;
+  final bool isSafeAreaRight;
 
   const CirclesBackground(
       {Key? key,
@@ -17,7 +20,10 @@ class CirclesBackground extends StatelessWidget {
       required this.topMediumCircleColor,
       required this.topRightCircleColor,
       required this.bottomRightCircleColor,
-      this.isSafeArea = true})
+      this.isSafeAreaTop = true,
+      this.isSafeAreaBottom = true,
+      this.isSafeAreaLeft = true,
+      this.isSafeAreaRight = true})
       : super(key: key);
 
   @override
@@ -66,7 +72,13 @@ class CirclesBackground extends StatelessWidget {
               color: bottomRightCircleColor,
             ),
           ),
-          isSafeArea ? SafeArea(child: child) : child,
+          SafeArea(
+            child: child,
+            top: isSafeAreaTop,
+            bottom: isSafeAreaBottom,
+            left: isSafeAreaLeft,
+            right: isSafeAreaRight,
+          ),
         ],
       ),
     );

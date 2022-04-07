@@ -7,6 +7,7 @@ import 'package:mvvm/module/TestModule/page/detail_page.dart';
 import 'package:mvvm/module/TestModule/page/login_page.dart';
 import 'package:mvvm/module/common/colors.dart';
 import 'package:mvvm/gen/assets.gen.dart';
+import 'package:mvvm/module/common/ui/menu_dashboard.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:mvvm/core/core.dart';
 import '../../common/ui/circles_background.dart';
@@ -15,9 +16,7 @@ import '../model/home_response.dart';
 import '../viewmodel/home_viewmodel.dart';
 
 class MyHomePage extends BaseStatefulWidgetPage {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -29,7 +28,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
   final textSearch = PublishSubject<String>();
   final scrollController = ScrollController();
   final PageController headerScrollController =
-      PageController(viewportFraction: 0.4, initialPage: 1);
+      PageController(viewportFraction: 0.4, initialPage: 0);
   List<HomeResponse> data = [];
   int selectedFoodCard = 0;
 
@@ -55,34 +54,20 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
     super.dispose();
   }
 
-  @override
-  PreferredSizeWidget appBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: AppColors.onPrimary,
-      centerTitle: false,
-      elevation: 0.5,
-      title: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoginPage()));
-          },
-          child: CircleAvatar(
-            radius: 25,
-            backgroundImage: Assets.images.man,
-          ),
-        ),
-      ),
-      actions: [
-        IconButton(
-            onPressed: () {}, icon: SvgPicture.asset(Assets.images.menu)),
-        const SizedBox(
-          width: 20,
-        )
-      ],
-    );
-  }
+  // @override
+  // PreferredSizeWidget appBar(BuildContext context) {
+  //   return AppBar(
+  //     backgroundColor: AppColors.onPrimary,
+  //     centerTitle: false,
+  //     elevation: 0.5,
+  //     actions: [
+  //       ,
+  //       const SizedBox(
+  //         width: 20,
+  //       )
+  //     ],
+  //   );
+  // }
 
   Widget _category(BuildContext context) {
     return SizedBox(
@@ -318,100 +303,130 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
   @override
   Widget appBody(BuildContext context) {
     return CirclesBackground(
-        isSafeArea: false,
+        isSafeAreaBottom: false,
         backgroundColor: AppColors.onPrimary,
         topSmallCircleColor: AppColors.onPrimary,
         topMediumCircleColor: AppColors.onPrimary,
         topRightCircleColor: AppColors.onPrimary,
         bottomRightCircleColor: AppColors.lightGray,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                          padding: EdgeInsets.only(left: 20),
-                          child: PrimaryText(
-                            text: "Food",
-                            size: 22,
-                          )),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: PrimaryText(
-                          text: "Delivery",
-                          height: 1.1,
-                          size: 42,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Icon(
-                            Icons.search,
-                            color: AppColors.secondary,
-                            size: 25,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: TextField(
-                                decoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          width: 2, color: AppColors.lightGray),
-                                    ),
-                                    hintText: 'Search...',
-                                    hintStyle: TextStyle(
-                                        color: AppColors.lightGray,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500))),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 25),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: PrimaryText(
-                          text: "Categories",
-                          size: 22,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      _category(context),
-                    ]),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 20, bottom: 15),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10, left: 20),
-                        child: PrimaryText(
-                          text: "Popular",
-                          fontWeight: FontWeight.w700,
-                          size: 22,
-                        ),
-                      ),
-                      _popular(context)
-                    ]),
-              ),
-            ],
+        child: Column(children: [
+          Container(
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    },
+                    child: CircleAvatar(
+                      radius: 25,
+                      backgroundImage: Assets.images.man,
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        MenuDashboard.of(context).toggle();
+                      },
+                      icon: SvgPicture.asset(Assets.images.menu))
+                ]),
           ),
-        ));
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                              padding: EdgeInsets.only(left: 20),
+                              child: PrimaryText(
+                                text: "Food",
+                                size: 22,
+                              )),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: PrimaryText(
+                              text: "Delivery",
+                              height: 1.1,
+                              size: 42,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Icon(
+                                Icons.search,
+                                color: AppColors.secondary,
+                                size: 25,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: TextField(
+                                    decoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              width: 2,
+                                              color: AppColors.lightGray),
+                                        ),
+                                        hintText: 'Search...',
+                                        hintStyle: TextStyle(
+                                            color: AppColors.lightGray,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500))),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 25),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: PrimaryText(
+                              text: "Categories",
+                              size: 22,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          _category(context),
+                        ]),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 20, bottom: 15),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(top: 10, left: 20),
+                            child: PrimaryText(
+                              text: "Popular",
+                              fontWeight: FontWeight.w700,
+                              size: 22,
+                            ),
+                          ),
+                          _popular(context)
+                        ]),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ]));
   }
 }
