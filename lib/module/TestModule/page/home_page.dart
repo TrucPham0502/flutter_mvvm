@@ -30,11 +30,20 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
   final PageController headerScrollController =
       PageController(viewportFraction: 0.4, initialPage: 0);
   List<HomeResponse> data = [];
-  int selectedFoodCard = 0;
+  int selectedFoodCard = -1;
 
   @override
   void initState() {
     super.initState();
+    output.foodCategoryitems.subject.listen((value) {
+      if (value.length > 1 && selectedFoodCard == -1) {
+        selectedFoodCard = 1;
+        if (value.length > 2) {
+          headerScrollController.jumpToPage(1);
+        }
+        setState(() {});
+      }
+    }).canceledBy(this);
   }
 
   @override

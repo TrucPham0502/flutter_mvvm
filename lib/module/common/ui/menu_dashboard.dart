@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mvvm/module/common/colors.dart';
 import 'dart:math' as math;
 
+import 'package:rxdart/subjects.dart';
+
 abstract class MenuDashboard extends StatefulWidget {
   static _MenuDashboard of(BuildContext context, {bool root = false}) => root
       ? context.findRootAncestorStateOfType<_MenuDashboard>() as _MenuDashboard
@@ -28,8 +30,9 @@ class _MenuDashboard extends State<MenuDashboard>
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<Offset> _slideAnimation;
-  late Animation<double> _menuScaleAnimation;
   late Animation<double> _menuTranslateZAnimation;
+  final PublishSubject _menuStream = PublishSubject();
+  final PublishSubject _dashboardStream = PublishSubject();
 
   @override
   void initState() {
@@ -39,15 +42,25 @@ class _MenuDashboard extends State<MenuDashboard>
     _slideAnimation =
         Tween<Offset>(begin: const Offset(-1, 0), end: const Offset(0, 0))
             .animate(_controller);
-    _menuScaleAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
     _menuTranslateZAnimation =
         Tween<double>(begin: 0, end: 10 * math.pi / 180).animate(_controller);
   }
 
   void setPage(int index) {
-    setState(() {
-      _index = index;
-    });
+    _index = index;
+    close();
+  }
+
+  void reload() {
+    setState(() {});
+  }
+
+  void reloadMenu() {
+    _menuStream.add(1);
+  }
+
+  void reloadDashboard() {
+    _dashboardStream.add(1);
   }
 
   void toggle() {
@@ -57,7 +70,19 @@ class _MenuDashboard extends State<MenuDashboard>
       _controller.reverse();
     }
     _isCollapsed = !_isCollapsed;
-    setState(() {});
+    reload();
+  }
+
+  void close() {
+    _controller.reverse();
+    _isCollapsed = true;
+    reload();
+  }
+
+  void open() {
+    _controller.forward();
+    _isCollapsed = false;
+    reload();
   }
 
   @override
@@ -72,7 +97,18 @@ class _MenuDashboard extends State<MenuDashboard>
           decoration: const BoxDecoration(color: AppColors.primary),
           width: _screenWidth,
           height: _screenHeight,
-          child: Stack(children: [_menu(context), _dashboard(context)]),
+          child: Stack(children: [
+            StreamBuilder(
+                stream: _menuStream,
+                builder: (_context, snap) {
+                  return _menu(context);
+                }),
+            StreamBuilder(
+                stream: _dashboardStream,
+                builder: (_context, snap) {
+                  return _dashboard(context);
+                })
+          ]),
         ),
       ),
     );
@@ -81,10 +117,7 @@ class _MenuDashboard extends State<MenuDashboard>
   Widget _menu(BuildContext context) {
     return SlideTransition(
       position: _slideAnimation,
-      child: ScaleTransition(
-        scale: _menuScaleAnimation,
-        child: widget.menu(context),
-      ),
+      child: widget.menu(context),
     );
   }
 
@@ -97,8 +130,8 @@ class _MenuDashboard extends State<MenuDashboard>
     return AnimatedPositioned(
       top: 0,
       bottom: 0,
-      left: _isCollapsed ? 0 : 0.5 * _screenWidth,
-      right: _isCollapsed ? 0 : -0.5 * _screenWidth,
+      left: _isCollapsed ? 0 : 0.55 * _screenWidth,
+      right: _isCollapsed ? 0 : -0.55 * _screenWidth,
       duration: _duration,
       child: AnimatedBuilder(
         animation: _menuTranslateZAnimation,

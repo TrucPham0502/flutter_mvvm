@@ -32,7 +32,7 @@ class UnderlinedButton extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 5, right: 5),
+            padding: const EdgeInsets.only(left: 5, right: 5),
             child: child,
           )
         ],

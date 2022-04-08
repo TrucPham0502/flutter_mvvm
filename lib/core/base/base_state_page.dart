@@ -55,7 +55,17 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
   Widget appBody(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [Text("Page not found")],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(
+            child: Text(
+          "Page under construction",
+          style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold),
+        ))
+      ],
     );
   }
 

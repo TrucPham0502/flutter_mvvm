@@ -11,4 +11,5 @@ class AppColors {
   static const facebook = Color(0xFF3B5998);
   static const google = Color(0xFF4285F4);
   static const onPrimary = Color.fromARGB(255, 255, 247, 217);
+  static const onSecondary = Color.fromARGB(168, 50, 51, 53);
 }

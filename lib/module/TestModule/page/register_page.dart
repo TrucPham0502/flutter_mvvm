@@ -48,13 +48,10 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
           height: 20,
         ),
         PrimaryTextField(
-          textColor: AppColors.white,
-          label: 'Email',
-          emailField: true,
-          onSubmitted: (_) {
-            node.unfocus();
-          },
-        ),
+            textColor: AppColors.white,
+            label: 'Email',
+            emailField: true,
+            onEditingComplete: () => node.nextFocus()),
         const SizedBox(
           height: 20,
         ),
