@@ -16,7 +16,7 @@ import '../model/home_response.dart';
 import '../viewmodel/home_viewmodel.dart';
 
 class MyHomePage extends BaseStatefulWidgetPage {
-  const MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -324,23 +324,18 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  IconButton(
+                      onPressed: () {
+                        MenuDashboard.of(context).toggle();
+                      },
+                      icon: SvgPicture.asset(Assets.images.menu)),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                    },
+                    onTap: () {},
                     child: CircleAvatar(
                       radius: 25,
                       backgroundImage: Assets.images.man,
                     ),
                   ),
-                  IconButton(
-                      onPressed: () {
-                        MenuDashboard.of(context).toggle();
-                      },
-                      icon: SvgPicture.asset(Assets.images.menu))
                 ]),
           ),
           Expanded(

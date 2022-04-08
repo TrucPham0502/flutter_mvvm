@@ -13,6 +13,9 @@ abstract class MenuDashboard extends StatefulWidget {
       ((context as StatefulElement).state as _MenuDashboard);
   Widget? menu(BuildContext context);
   List<Widget> dashboard(BuildContext context);
+  Widget? header(BuildContext context) {
+    return null;
+  }
 
   const MenuDashboard({Key? key}) : super(key: key);
 
@@ -92,7 +95,7 @@ class _MenuDashboard extends State<MenuDashboard>
     return Scaffold(
       backgroundColor: AppColors.onPrimary,
       body: GestureDetector(
-        onTap: () => toggle(),
+        onTap: () => close(),
         child: Container(
           decoration: const BoxDecoration(color: AppColors.primary),
           width: _screenWidth,
@@ -122,16 +125,12 @@ class _MenuDashboard extends State<MenuDashboard>
   }
 
   Widget _dashboard(BuildContext context) {
-    Widget dashboard = Container();
     final listDashboard = widget.dashboard(context);
-    if (_index < listDashboard.length && _index > -1) {
-      dashboard = listDashboard[_index];
-    }
     return AnimatedPositioned(
       top: 0,
       bottom: 0,
-      left: _isCollapsed ? 0 : 0.55 * _screenWidth,
-      right: _isCollapsed ? 0 : -0.55 * _screenWidth,
+      left: _isCollapsed ? 0 : 0.6 * _screenWidth,
+      right: _isCollapsed ? 0 : -0.6 * _screenWidth,
       duration: _duration,
       child: AnimatedBuilder(
         animation: _menuTranslateZAnimation,
@@ -148,7 +147,17 @@ class _MenuDashboard extends State<MenuDashboard>
             elevation: 8,
             borderRadius: BorderRadius.circular(20),
             child: IgnorePointer(
-              child: dashboard,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    widget.header(context) ?? Container(),
+                    Expanded(
+                        child: IndexedStack(
+                      index: _index,
+                      children: listDashboard,
+                    ))
+                  ]),
               ignoring: !_isCollapsed,
             ),
           ),

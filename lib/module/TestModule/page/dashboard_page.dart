@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/module/TestModule/page/home_page.dart';
-import 'package:mvvm/module/TestModule/page/recover_page.dart';
+import 'package:mvvm/module/TestModule/page/tabbar_page.dart';
 import 'package:mvvm/module/common/colors.dart';
 import 'package:mvvm/module/common/ui/menu_dashboard.dart';
 import 'package:mvvm/module/common/ui/primary_text.dart';
@@ -11,26 +10,31 @@ import '../../common/ui/underlined_button.dart';
 class DataMenu {
   final IconData icon;
   final String title;
-  DataMenu(this.icon, this.title);
+  final bool isBadge;
+  DataMenu(this.icon, this.title, {this.isBadge = false});
 }
 
 class DasboardPage extends MenuDashboard {
   DasboardPage({Key? key}) : super(key: key);
-  var index = 0;
+  var _index = 0;
   List<DataMenu> arrDataMenu = [
-    DataMenu(Icons.dashboard, "Dashboard"),
-    DataMenu(Icons.shopping_cart, "Cart"),
+    DataMenu(Icons.apps, "Dashboard"),
+    DataMenu(Icons.newspaper, "News"),
+    DataMenu(Icons.history, "History"),
+    DataMenu(Icons.call, "Contact"),
+    DataMenu(Icons.store, "Store"),
+    DataMenu(Icons.settings, "Setting")
   ];
   @override
   List<Widget> dashboard(BuildContext context) {
-    return const [MyHomePage(), RecoverPage()];
+    return [TabbarPage()];
   }
 
   @override
   Widget? menu(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 30, top: 30),
-      width: 180,
+      padding: const EdgeInsets.only(left: 20, top: 20),
+      width: 200,
       decoration: const BoxDecoration(color: AppColors.primary),
       child: SafeArea(
         child: Column(
@@ -44,10 +48,29 @@ class DasboardPage extends MenuDashboard {
             const SizedBox(
               height: 15,
             ),
-            const PrimaryText(
-              text: "Truc Pham",
-              fontWeight: FontWeight.w700,
-              size: 22,
+            GestureDetector(
+              onTap: () {},
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  PrimaryText(
+                    text: "Truc Pham",
+                    fontWeight: FontWeight.w700,
+                    size: 22,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 4),
+                    child: Icon(
+                      Icons.navigate_next_outlined,
+                      size: 20,
+                    ),
+                  )
+                ],
+              ),
             ),
             const PrimaryText(
               text: "Mobile Developer",
@@ -56,84 +79,83 @@ class DasboardPage extends MenuDashboard {
               size: 12,
             ),
             const SizedBox(
-              height: 30,
+              height: 15,
             ),
-            UnderlinedButton(
-                color: index == 0 ? AppColors.lightGray : Colors.transparent,
-                onPressed: () {
-                  index = 0;
-                  getCurrentState(context).setPage(index);
-                  getCurrentState(context).reloadMenu();
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.dashboard,
-                      size: 20,
-                      color: index == 0 ? AppColors.white : AppColors.secondary,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    PrimaryText(
-                      text: 'Dashboard',
-                      size: 18,
-                      fontWeight: FontWeight.w500,
-                      color: index == 0 ? AppColors.white : AppColors.secondary,
-                    ),
-                  ],
-                )),
-            UnderlinedButton(
-                color: index == 1 ? AppColors.lightGray : Colors.transparent,
-                onPressed: () {
-                  index = 1;
-                  getCurrentState(context).setPage(index);
-                  getCurrentState(context).reloadMenu();
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.shopping_cart,
-                      size: 20,
-                      color: index == 1 ? AppColors.white : AppColors.secondary,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    PrimaryText(
-                      text: "Cart",
-                      size: 18,
-                      color: index == 1 ? AppColors.white : AppColors.secondary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                )),
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(bottom: 30),
-              child: GestureDetector(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: const [
-                    Icon(
-                      Icons.logout_outlined,
-                      size: 20,
-                      color: AppColors.black,
-                    ),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    PrimaryText(
-                      text: "Logout",
-                      size: 18,
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w500,
-                    )
-                  ],
-                ),
-                onTap: () {},
+              child: Column(
+                  children: List<UnderlinedButton>.generate(arrDataMenu.length,
+                      (index) {
+                final item = arrDataMenu[index];
+                return UnderlinedButton(
+                    color: _index == index
+                        ? AppColors.lightGray
+                        : Colors.transparent,
+                    onPressed: () {
+                      _index = index;
+                      getCurrentState(context).setPage(index);
+                      getCurrentState(context).reloadMenu();
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          item.icon,
+                          size: 20,
+                          color: _index == index
+                              ? AppColors.white
+                              : AppColors.secondary,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        PrimaryText(
+                          text: item.title,
+                          size: 18,
+                          fontWeight: FontWeight.w500,
+                          color: _index == index
+                              ? AppColors.white
+                              : AppColors.secondary,
+                        ),
+                        const SizedBox(
+                          width: 3,
+                        ),
+                        item.isBadge
+                            ? Container(
+                                width: 6,
+                                height: 6,
+                                decoration: BoxDecoration(
+                                    color: AppColors.red,
+                                    borderRadius: BorderRadius.circular(6)),
+                              )
+                            : Container()
+                      ],
+                    ));
+              })),
+            ),
+            GestureDetector(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: const [
+                  Icon(
+                    Icons.logout_outlined,
+                    size: 20,
+                    color: AppColors.black,
+                  ),
+                  SizedBox(
+                    width: 7,
+                  ),
+                  PrimaryText(
+                    text: "Log out",
+                    size: 18,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w500,
+                  )
+                ],
               ),
-            ))
+              onTap: () {},
+            ),
+            const SizedBox(
+              height: 40,
+            ),
           ],
         ),
       ),

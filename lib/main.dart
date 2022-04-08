@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/module/TestModule/page/login_page.dart';
 import 'module/TestModule/page/dashboard_page.dart';
 import 'module/module.dart';
 import 'package:mvvm/core/core.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
           textTheme: const TextTheme(
             bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
           )),
-      home: DasboardPage(),
+      home: LoginPage(),
     );
   }
 }

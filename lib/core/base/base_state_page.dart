@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:mvvm/core/base/base_stateful_widget_page.dart';
 import 'package:mvvm/core/base/base_viewmodel.dart';
 import 'package:mvvm/core/rx/activity_indicator.dart';

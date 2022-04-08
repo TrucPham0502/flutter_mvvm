@@ -12,7 +12,7 @@ import '../../common/ui/primary_text_field.dart';
 import '../../common/ui/underlined_button.dart';
 
 class RegisterPage extends BaseStatefulWidgetPage {
-  const RegisterPage({Key? key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _RegisterPage();
@@ -96,8 +96,8 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
         children: [
           UnderlinedButton(
             onPressed: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()))
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => LoginPage()))
             },
             child: const PrimaryText(
                 text: 'Sign In', size: 18, fontWeight: FontWeight.w700),

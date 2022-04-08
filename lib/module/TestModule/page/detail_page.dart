@@ -13,7 +13,7 @@ import '../viewmodel/detail_viewmodel.dart';
 
 class DetailPage extends BaseStatefulWidgetPage {
   final PopularFoodList data;
-  const DetailPage({Key? key, required this.data}) : super(key: key);
+  DetailPage({Key? key, required this.data}) : super(key: key);
   @override
   State<StatefulWidget> createState() => _DetailPageState();
 }

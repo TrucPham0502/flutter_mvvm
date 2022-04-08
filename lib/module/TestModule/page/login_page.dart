@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm/core/core.dart';
+import 'package:mvvm/module/TestModule/page/recover_page.dart';
 import 'package:mvvm/module/TestModule/page/register_page.dart';
 import 'package:mvvm/module/TestModule/viewmodel/login_viewmodel.dart';
 import 'package:mvvm/module/common/ui/primary_button.dart';
@@ -10,9 +11,10 @@ import '../../common/ui/circles_background.dart';
 import '../../common/ui/navigation_bar.dart';
 import '../../common/ui/primary_text_field.dart';
 import '../../common/ui/underlined_button.dart';
+import 'dashboard_page.dart';
 
 class LoginPage extends BaseStatefulWidgetPage {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _LoginPage();
@@ -73,7 +75,12 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             PrimaryButton(
               radius: BorderRadius.circular(50),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_context) => DasboardPage()),
+                    (r) => false)
+              },
               loading: _loading,
               child: const Icon(Icons.arrow_forward),
             )
@@ -188,7 +195,10 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             color: AppColors.lightGray,
           ),
           UnderlinedButton(
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => RecoverPage()))
+            },
             child: const PrimaryText(
               text: 'Forgot Password',
               size: 18,
@@ -215,11 +225,11 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           children: [
-            const AppNavigationBar(
-              padding: EdgeInsets.only(top: 10, right: 20, bottom: 10),
-            ),
+            // const AppNavigationBar(
+            //   padding: EdgeInsets.only(top: 10, right: 20, bottom: 10),
+            // ),
             const SizedBox(
-              height: 30,
+              height: 50,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
