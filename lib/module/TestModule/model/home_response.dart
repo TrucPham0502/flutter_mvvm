@@ -41,11 +41,14 @@ class PopularFoodList {
   final String name;
   final String weight;
   final double star;
-  PopularFoodList(
-      {required this.name,
-      required this.image,
-      required this.weight,
-      required this.star});
+  final double price;
+  PopularFoodList({
+    required this.name,
+    required this.image,
+    required this.weight,
+    required this.star,
+    required this.price,
+  });
 }
 
 class Ingredients {

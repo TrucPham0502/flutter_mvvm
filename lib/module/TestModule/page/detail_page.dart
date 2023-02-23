@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mvvm/core/core.dart';
 import 'package:mvvm/gen/assets.gen.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
+import 'package:mvvm/module/TestModule/page/cart_page.dart';
 import 'package:mvvm/module/common/ui/navigation_bar.dart';
 import 'package:mvvm/module/common/ui/primary_button.dart';
 
@@ -97,8 +98,8 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                               color: AppColors.tertiary,
                               width: 15,
                             ),
-                            const PrimaryText(
-                              text: '5.99',
+                            PrimaryText(
+                              text: widget.data.price.toString(),
                               size: 48,
                               fontWeight: FontWeight.w700,
                               color: AppColors.tertiary,
@@ -241,7 +242,10 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                       maxWidth: MediaQuery.of(context).size.width - 40,
                     ),
                     child: PrimaryButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (c) => CartPage()))
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

@@ -109,91 +109,94 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
   }
 
   Widget _thirdPartySignInButtons(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 30,
-        ),
-        PrimaryButton(
-          fixedSize: Size(MediaQuery.of(context).size.width * 0.6, 46),
-          shadowColor: AppColors.lighterGray,
-          elevation: 3,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          color: AppColors.black,
-          onPressed: () => {},
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: const [
-            Icon(
-              Icons.apple,
-              size: 20,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            PrimaryText(
-              text: "Sign up with Apple",
-              color: AppColors.white,
-              size: 15,
-              fontWeight: FontWeight.w500,
-            )
-          ]),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        PrimaryButton(
-          fixedSize: Size(MediaQuery.of(context).size.width * 0.6, 46),
-          shadowColor: AppColors.lighterGray,
-          elevation: 3,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          color: AppColors.facebook,
-          onPressed: () => {},
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: const [
-            Icon(
-              Icons.facebook,
-              size: 20,
-              color: AppColors.white,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            PrimaryText(
-                text: "Sign up with Facebook",
-                color: AppColors.white,
-                size: 15,
-                fontWeight: FontWeight.w500)
-          ]),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        PrimaryButton(
-          fixedSize: Size(MediaQuery.of(context).size.width * 0.6, 46),
-          shadowColor: AppColors.lighterGray,
-          elevation: 3,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          color: AppColors.google,
-          onPressed: () => {},
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: const [
-            Icon(
-              Icons.android,
-              size: 20,
-              color: AppColors.white,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            PrimaryText(
-                text: "Sign up with Google",
-                color: AppColors.white,
-                size: 15,
-                fontWeight: FontWeight.w500)
-          ]),
-        ),
-      ],
+    return SizedBox(
+      width: 230,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          PrimaryButton(
+            shadowColor: AppColors.lighterGray,
+            elevation: 3,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            color: AppColors.black,
+            onPressed: () => {},
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Icon(
+                    Icons.apple,
+                    size: 20,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  PrimaryText(
+                    text: "Sign up with Apple",
+                    color: AppColors.white,
+                    size: 15,
+                    fontWeight: FontWeight.w500,
+                  )
+                ]),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          PrimaryButton(
+            shadowColor: AppColors.lighterGray,
+            elevation: 3,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            color: AppColors.facebook,
+            onPressed: () => {},
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Icon(
+                    Icons.facebook,
+                    size: 20,
+                    color: AppColors.white,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  PrimaryText(
+                      text: "Sign up with Facebook",
+                      color: AppColors.white,
+                      size: 15,
+                      fontWeight: FontWeight.w500)
+                ]),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          PrimaryButton(
+            shadowColor: AppColors.lighterGray,
+            elevation: 3,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            color: AppColors.google,
+            onPressed: () => {},
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Icon(
+                    Icons.android,
+                    size: 20,
+                    color: AppColors.white,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  PrimaryText(
+                      text: "Sign up with Google",
+                      color: AppColors.white,
+                      size: 15,
+                      fontWeight: FontWeight.w500)
+                ]),
+          ),
+        ],
+      ),
     );
   }
 

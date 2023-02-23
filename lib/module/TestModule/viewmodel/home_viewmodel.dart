@@ -77,27 +77,32 @@ class HomeViewModel
           image: Assets.images.pizza1.path,
           name: "Primavera Pizza",
           weight: "Weight 540 gr",
-          star: 5.0),
+          star: 5.0,
+          price: 5.99),
       PopularFoodList(
           image: Assets.images.pizzaPng.path,
           name: "Cheese Pizza",
           weight: "Weight 540 gr",
-          star: 5.0),
+          star: 5.0,
+          price: 6.99),
       PopularFoodList(
           image: Assets.images.salad.path,
           name: "Healthy Salad",
           weight: "Weight 540 gr",
-          star: 5.0),
+          star: 5.0,
+          price: 7.99),
       PopularFoodList(
           image: Assets.images.sandwhich.path,
           name: "Grilled Sandwhich",
           weight: "Weight 540 gr",
-          star: 5.0),
+          star: 5.0,
+          price: 8.99),
       PopularFoodList(
           image: Assets.images.chowmin.path,
           name: "Cheese Chowmin",
           weight: "Weight 540 gr",
-          star: 5.0),
+          star: 5.0,
+          price: 9.99),
     ]).delay(const Duration(seconds: 1));
   }
 

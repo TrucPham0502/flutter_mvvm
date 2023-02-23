@@ -25,6 +25,7 @@ abstract class MenuDashboard extends StatefulWidget {
 
 class _MenuDashboard extends State<MenuDashboard>
     with TickerProviderStateMixin {
+  final List<bool> shouldBuildTab = <bool>[];
   var _screenWidth = 0.0;
   var _screenHeight = 0.0;
   final _duration = const Duration(milliseconds: 100);
@@ -47,6 +48,8 @@ class _MenuDashboard extends State<MenuDashboard>
             .animate(_controller);
     _menuTranslateZAnimation =
         Tween<double>(begin: 0, end: 10 * math.pi / 180).animate(_controller);
+    shouldBuildTab
+        .addAll(List<bool>.filled(widget.dashboard(context).length, false));
   }
 
   void setPage(int index) {
@@ -145,7 +148,8 @@ class _MenuDashboard extends State<MenuDashboard>
           child: Material(
             clipBehavior: Clip.hardEdge,
             elevation: 8,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius:
+                _isCollapsed ? BorderRadius.zero : BorderRadius.circular(20),
             child: IgnorePointer(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -153,10 +157,25 @@ class _MenuDashboard extends State<MenuDashboard>
                   children: [
                     widget.header(context) ?? Container(),
                     Expanded(
-                        child: IndexedStack(
-                      index: _index,
-                      children: listDashboard,
-                    ))
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: List<Widget>.generate(listDashboard.length,
+                            (index) {
+                          final bool active = index == _index;
+                          shouldBuildTab[index] =
+                              active || shouldBuildTab[index];
+                          return HeroMode(
+                            enabled: active,
+                            child: Offstage(
+                              offstage: !active,
+                              child: shouldBuildTab[index]
+                                  ? listDashboard.elementAt(index)
+                                  : Container(),
+                            ),
+                          );
+                        }),
+                      ),
+                    )
                   ]),
               ignoring: !_isCollapsed,
             ),
