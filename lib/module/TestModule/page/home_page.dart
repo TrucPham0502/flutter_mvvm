@@ -15,6 +15,8 @@ import '../../common/ui/primary_text.dart';
 import '../model/home_response.dart';
 import '../viewmodel/home_viewmodel.dart';
 
+
+
 class MyHomePage extends BaseStatefulWidgetPage {
   MyHomePage({Key? key}) : super(key: key);
 
@@ -333,7 +335,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
                     onTap: () {},
                     child: CircleAvatar(
                       radius: 25,
-                      backgroundImage: Assets.images.man,
+                      backgroundImage: Assets.images.man as ImageProvider,
                     ),
                   ),
                 ]),

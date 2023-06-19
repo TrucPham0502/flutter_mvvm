@@ -4,17 +4,16 @@ import 'package:mvvm/module/TestModule/page/login_page.dart';
 import 'module/TestModule/page/dashboard_page.dart';
 import 'module/module.dart';
 import 'package:mvvm/core/core.dart';
-
-void main() {
-  configureDependencies();
-
-  runApp(const MyApp());
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+class App {
+  static void run() {
+    configureDependencies();
+    runApp(const MyApp());
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.

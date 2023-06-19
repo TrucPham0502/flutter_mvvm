@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'home_response.g.dart';
+
+@JsonSerializable()
 class HomeResponse {
   HomeResponse({
     required this.albumId,
@@ -13,21 +17,9 @@ class HomeResponse {
   final String url;
   final String thumbnailUrl;
 
-  factory HomeResponse.fromJson(Map<String, dynamic> json) => HomeResponse(
-        albumId: json["albumId"],
-        id: json["id"],
-        title: json["title"],
-        url: json["url"],
-        thumbnailUrl: json["thumbnailUrl"],
-      );
+  factory HomeResponse.fromJson(Map<String, dynamic> json) => _$HomeResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "albumId": albumId,
-        "id": id,
-        "title": title,
-        "url": url,
-        "thumbnailUrl": thumbnailUrl,
-      };
+  Map<String, dynamic> toJson() => _$HomeResponseToJson(this);
 }
 
 class FoodCategory {
@@ -55,3 +47,5 @@ class Ingredients {
   final String image;
   Ingredients(this.image);
 }
+
+
