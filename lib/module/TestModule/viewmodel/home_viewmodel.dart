@@ -49,26 +49,26 @@ class HomeViewModel
 
   @override
   HomeViewModelOutput transform(HomeViewModelInput input) {
-    // input.viewDidApearing
-    //     .flatMap((value) => getFoodCategory().flatMap((category) =>
-    //         getPopularFoodList().map((item) => DataHomeResult(category, item))))
-    //     .trackActivity(activityIndicator)
-    //     .trackError(errorTracker)
-    //     .listen((data) {
-    //   foodCategoryItems.add(data.foodCategoryitems);
-    //   popularFoodItems.add(data.popularFoodItems);
-    // }).canceledBy(this);
-    MergeStream([
-      input.textSearch.debounceTime(const Duration(seconds: 1)),
-      input.viewDidApearing.map((event) => "")
-    ])
-        .flatMap((value) {
-          return getData(value)
-              .trackActivity(activityIndicator)
-              .trackError(errorTracker);
-        })
-        .drive(items)
-        .canceledBy(this);
+    input.viewDidApearing
+        .flatMap((value) => getFoodCategory().flatMap((category) =>
+            getPopularFoodList().map((item) => DataHomeResult(category, item))))
+        .trackActivity(activityIndicator)
+        .trackError(errorTracker)
+        .listen((data) {
+      foodCategoryItems.add(data.foodCategoryitems);
+      popularFoodItems.add(data.popularFoodItems);
+    }).canceledBy(this);
+    // MergeStream([
+    //   input.textSearch.debounceTime(const Duration(seconds: 1)),
+    //   input.viewDidApearing.map((event) => "")
+    // ])
+    //     .flatMap((value) {
+    //       return getData(value)
+    //           .trackActivity(activityIndicator)
+    //           .trackError(errorTracker);
+    //     })
+    //     .drive(items)
+    //     .canceledBy(this);
     return HomeViewModelOutput(
         items.subject, foodCategoryItems, popularFoodItems);
   }
