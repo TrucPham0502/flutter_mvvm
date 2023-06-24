@@ -5,21 +5,52 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flutter_mvvm",
+            "name": "FLUTTER MVVM DEV",
             "request": "launch",
-            "type": "dart"
+            "program": "lib/dev.dart",
+            "type": "dart",
+            "flutterMode": "debug",
+            // "args": [
+            //     "--flavor",
+            //     "dev"
+            // ]
+
         },
         {
-            "name": "flutter_mvvm (profile mode)",
+            "name": "FLUTTER MVVM PROD DEBUG",
             "request": "launch",
+            "program": "lib/prod.dart",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "debug",
+            // "args": [
+            //     "--flavor",
+            //     "uat"
+            // ]
+
         },
         {
-            "name": "flutter_mvvm (release mode)",
+            "name": "FLUTTER MVVM UAT",
             "request": "launch",
+            "program": "lib/prod.dart",
             "type": "dart",
-            "flutterMode": "release"
-        }
+            "flutterMode": "profile",
+            // "args": [
+            //     "--flavor",
+            //     "uat"
+            // ]
+
+        },
+        {
+            "name": "FLUTTER MVVM PROD",
+            "request": "launch",
+            "program": "lib/prod.dart",
+            "type": "dart",
+            "flutterMode": "release",
+            // "args": [
+            //     "--flavor",
+            //     "prod"
+            // ]
+
+        },
     ]
 }
