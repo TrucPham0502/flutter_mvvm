@@ -14,7 +14,7 @@ import '../viewmodel/detail_viewmodel.dart';
 
 class DetailPage extends BaseStatefulWidgetPage {
   final PopularFoodList data;
-  DetailPage({Key? key, required this.data}) : super(key: key);
+  const DetailPage(this.data, { super.key });
   @override
   State<StatefulWidget> createState() => _DetailPageState();
 }
@@ -116,10 +116,10 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     PrimaryText(
                                       text: 'Size',
                                       color: AppColors.lightGray,
@@ -246,10 +246,10 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                         Navigator.push(context,
                             MaterialPageRoute(builder: (c) => CartPage()))
                       },
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           PrimaryText(
                             text: 'Place an Order',
                             fontWeight: FontWeight.w600,

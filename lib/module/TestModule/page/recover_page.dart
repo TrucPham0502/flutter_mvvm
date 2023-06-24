@@ -10,7 +10,7 @@ import '../../common/ui/primary_text.dart';
 import '../../common/ui/primary_text_field.dart';
 
 class RecoverPage extends BaseStatefulWidgetPage {
-  RecoverPage({Key? key}) : super(key: key);
+  const RecoverPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _RecoverPage();
@@ -18,7 +18,6 @@ class RecoverPage extends BaseStatefulWidgetPage {
 
 class _RecoverPage extends BaseStatePage<RecoverViewModel,
     RecoverViewModelInput, RecoverViewModelOutput, RecoverPage> {
-  bool _loading = false;
   @override
   RecoverViewModelInput makeInput() {
     return RecoverViewModelInput();
@@ -58,7 +57,7 @@ class _RecoverPage extends BaseStatePage<RecoverViewModel,
               radius: BorderRadius.circular(50),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               onPressed: () => {},
-              loading: _loading,
+              loading: false,
               child: const Icon(Icons.arrow_forward),
             )
           ],

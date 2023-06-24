@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/router/routes.dart';
+
 class AppNavigationBar extends StatelessWidget {
   final Color backColor;
   final Function()? onBack;
@@ -15,9 +17,7 @@ class AppNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void onTap() => {
-          if (Navigator.canPop(context)) {Navigator.pop(context)}
-        };
+    void onTap() => Routes.pop(context);
     return GestureDetector(
       onTap: onBack ?? onTap,
       child: Container(

@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/core/core.dart';
 import 'package:mvvm/module/TestModule/page/recover_page.dart';
@@ -6,6 +7,7 @@ import 'package:mvvm/module/TestModule/viewmodel/login_viewmodel.dart';
 import 'package:mvvm/module/common/ui/primary_button.dart';
 import 'package:mvvm/module/common/ui/primary_text.dart';
 
+import '../../../core/router/routes.dart';
 import '../../common/colors.dart';
 import '../../common/ui/circles_background.dart';
 import '../../common/ui/navigation_bar.dart';
@@ -76,10 +78,7 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
               radius: BorderRadius.circular(50),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               onPressed: () => {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_context) => DasboardPage()),
-                    (r) => true)
+                Routes.setRoot(context, RoutesPath.home)
               },
               loading: _loading,
               child: const Icon(Icons.arrow_forward),
@@ -105,9 +104,9 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.black,
             onPressed: () => {},
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.apple,
                     size: 20,
@@ -132,9 +131,9 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.facebook,
             onPressed: () => {},
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.facebook,
                     size: 20,
@@ -159,9 +158,9 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.google,
             onPressed: () => {},
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.android,
                     size: 20,
@@ -190,8 +189,8 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
         children: [
           UnderlinedButton(
             onPressed: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegisterPage()))
+              // Navigator.pushNamed(context, RoutesPath.signup)
+              Routes.push(context, RoutesPath.signup)
             },
             child: const PrimaryText(
                 text: 'Sign Up', size: 18, fontWeight: FontWeight.w700),
@@ -199,8 +198,7 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
           ),
           UnderlinedButton(
             onPressed: () => {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => RecoverPage()))
+              Routes.push(context, RoutesPath.forgotPassword)
             },
             child: const PrimaryText(
               text: 'Forgot Password',

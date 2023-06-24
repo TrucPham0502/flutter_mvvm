@@ -10,6 +10,7 @@ import 'package:mvvm/gen/assets.gen.dart';
 import 'package:mvvm/module/common/ui/menu_dashboard.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:mvvm/core/core.dart';
+import '../../../core/router/routes.dart';
 import '../../common/ui/circles_background.dart';
 import '../../common/ui/primary_text.dart';
 import '../model/home_response.dart';
@@ -18,7 +19,7 @@ import '../viewmodel/home_viewmodel.dart';
 
 
 class MyHomePage extends BaseStatefulWidgetPage {
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({ super.key });
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -181,14 +182,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
                 var item = output.popularFoodItems.value[index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) =>
-                              DetailPage(
-                            data: item,
-                          ),
-                        ));
+                    Routes.push(context, RoutesPath.foodDetail, data: item);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 25, left: 10, top: 25),
@@ -214,11 +208,11 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
+                                  const Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    children: const [
+                                    children: [
                                       Icon(
                                         Icons.star,
                                         size: 20,

@@ -15,7 +15,7 @@ class DataMenu {
 }
 
 class DasboardPage extends MenuDashboard {
-  DasboardPage({Key? key}) : super(key: key);
+  DasboardPage({ super.key });
   var _index = 0;
   List<DataMenu> arrDataMenu = [
     DataMenu(Icons.apps, "Dashboard"),
@@ -50,10 +50,10 @@ class DasboardPage extends MenuDashboard {
             ),
             GestureDetector(
               onTap: () {},
-              child: Row(
+              child: const Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   SizedBox(
                     width: 20,
                   ),

@@ -77,11 +77,9 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
     }).canceledBy(this);
     activityIndicator.asStream().listen((event) {
       if (event) {
-        Loader.show(context,
-            progressIndicator: const CircularProgressIndicator(),
-            overlayColor: Colors.black.withOpacity(0.3));
+        Loader.shared.show();
       } else {
-        Loader.hide();
+        Loader.shared.hide();
       }
     }).canceledBy(this);
     output = viewModel.transform(makeInput());
@@ -98,7 +96,6 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
   @override
   void dispose() {
     cancelSubscriptions();
-    Loader.hide();
     super.dispose();
   }
 }

@@ -12,7 +12,7 @@ import '../../common/ui/primary_text_field.dart';
 import '../../common/ui/underlined_button.dart';
 
 class RegisterPage extends BaseStatefulWidgetPage {
-  RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _RegisterPage();
@@ -20,7 +20,6 @@ class RegisterPage extends BaseStatefulWidgetPage {
 
 class _RegisterPage extends BaseStatePage<RegisterViewModel,
     RegisterViewModelInput, RegisterViewModelOutput, RegisterPage> {
-  bool _loading = false;
   @override
   RegisterViewModelInput makeInput() {
     return RegisterViewModelInput();
@@ -79,7 +78,7 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
               radius: BorderRadius.circular(50),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               onPressed: () => {},
-              loading: _loading,
+              loading: false,
               child: const Icon(Icons.arrow_forward),
             )
           ],
@@ -123,9 +122,9 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.black,
             onPressed: () => {},
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.apple,
                     size: 20,
@@ -150,9 +149,9 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.facebook,
             onPressed: () => {},
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.facebook,
                     size: 20,
