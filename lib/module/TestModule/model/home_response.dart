@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../../core/domain/model/api_response.dart';
 part 'home_response.g.dart';
 
 @JsonSerializable()
@@ -17,9 +19,11 @@ class HomeResponse {
   final String url;
   final String thumbnailUrl;
 
-  factory HomeResponse.fromJson(Map<String, dynamic> json) => _$HomeResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HomeResponseToJson(this);
+factory HomeResponse.fromJson(Map<String, dynamic> json) => _$HomeResponseFromJson(json);
+
+
+Map<String, dynamic> toJson() => _$HomeResponseToJson(this);
 }
 
 class FoodCategory {

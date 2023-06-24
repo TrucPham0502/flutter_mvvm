@@ -32,41 +32,43 @@ class HomeViewModel
       BehaviorProperty<List<FoodCategory>>([]);
   final BehaviorProperty<List<PopularFoodList>> popularFoodItems =
       BehaviorProperty<List<PopularFoodList>>([]);
-
-  final service = getIt.get<HomeService>();
+  
+  final HomeService service;
+  HomeViewModel(this.service);
+  
   Stream<List<HomeResponse>> getData(String text) {
-    return service.getData().flatMap((value) {
+    return service.getData1().flatMap((value) {
+      print(value.title);
       if (text.isEmpty) {
-        return Stream.value(value);
+        return Stream.value([value]);
       }
       return Stream.value(
-          value.where((element) => element.title.contains(text)).toList());
+          [value].where((element) => element.title.contains(text)).toList());
     });
   }
 
   @override
   HomeViewModelOutput transform(HomeViewModelInput input) {
-    input.viewDidApearing
-        .flatMap((value) => getFoodCategory().flatMap((category) =>
-            getPopularFoodList().map((item) => DataHomeResult(category, item))))
-        .trackActivity(activityIndicator)
-        .trackError(errorTracker)
-        .listen((data) {
-      foodCategoryItems.add(data.foodCategoryitems);
-      popularFoodItems.add(data.popularFoodItems);
-    }).canceledBy(this);
-    // MergeStream([
-    //   input.textSearch.debounceTime(const Duration(seconds: 1)),
-    //   input.viewDidApearing.map((event) => "")
-    // ])
-    //     .flatMap((value) {
-    //       return service
-    //           .getData()
-    //           .trackActivity(activityIndicator)
-    //           .trackError(errorTracker);
-    //     })
-    //     .drive(items)
-    //     .canceledBy(this);
+    // input.viewDidApearing
+    //     .flatMap((value) => getFoodCategory().flatMap((category) =>
+    //         getPopularFoodList().map((item) => DataHomeResult(category, item))))
+    //     .trackActivity(activityIndicator)
+    //     .trackError(errorTracker)
+    //     .listen((data) {
+    //   foodCategoryItems.add(data.foodCategoryitems);
+    //   popularFoodItems.add(data.popularFoodItems);
+    // }).canceledBy(this);
+    MergeStream([
+      input.textSearch.debounceTime(const Duration(seconds: 1)),
+      input.viewDidApearing.map((event) => "")
+    ])
+        .flatMap((value) {
+          return getData(value)
+              .trackActivity(activityIndicator)
+              .trackError(errorTracker);
+        })
+        .drive(items)
+        .canceledBy(this);
     return HomeViewModelOutput(
         items.subject, foodCategoryItems, popularFoodItems);
   }

@@ -1,14 +1,25 @@
+import 'package:injectable/injectable.dart';
 import 'package:mvvm/core/core.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/module/TestModule/repositories/test_repository.dart';
 
+
 abstract class HomeService {
   Stream<List<HomeResponse>> getData();
+  Stream<HomeResponse> getData1();
 }
 
-class HomeServiceImpl extends BaseService<TestRepository> with HomeService {
+@Injectable(as: HomeService)
+class HomeServiceImpl extends BaseService with HomeService {
+  HomeServiceImpl({required this.repository});
+  final TestRepository repository;
   @override
   Stream<List<HomeResponse>> getData() {
     return repository.getData();
+  }
+  
+  @override
+  Stream<HomeResponse> getData1() {
+    return repository.getData1();
   }
 }

@@ -1,17 +1,25 @@
+import 'package:injectable/injectable.dart';
 import 'package:mvvm/core/core.dart';
+import 'package:mvvm/module/TestModule/repositories/home_rest_client.dart';
 import '../model/home_response.dart';
 
-abstract class TestRemoteSource extends BaseRemoteSource {
-  Stream<ApiResponse<List<HomeResponse>>> getData();
+abstract class TestRemoteSource {
+  Stream<ListResponse<HomeResponse>> getData();
+  Stream<ApiResponse<HomeResponse>> getData1();
 }
 
+@Injectable(as: TestRemoteSource)
 class TestRemoteSourceImpl extends TestRemoteSource {
+  final HomeRestClient restClient;
+
+  TestRemoteSourceImpl(this.restClient);
   @override
-  Stream<ApiResponse<List<HomeResponse>>> getData() {
-    return ApiRequestManager.request<ApiResponse<List<HomeResponse>>>(
-        method: ApiMethod.post,
-        url: "https://6078f08ee7f4f50017184eca.mockapi.io/api/sme/access-list",
-        convert: (p0) => ApiResponse.fromJson(
-            p0, (p1) => iterableToList(p1, (p3) => HomeResponse.fromJson(p3))));
+  Stream<ListResponse<HomeResponse>> getData() {
+    return restClient.getData();
+  }
+  
+  @override
+  Stream<ApiResponse<HomeResponse>> getData1() {
+    return restClient.getData1();
   }
 }

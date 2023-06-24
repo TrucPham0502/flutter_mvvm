@@ -1,38 +1,44 @@
-import 'dart:developer';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:mvvm/core/error/error.dart';
+class ApiManager {
+  static Dio createDio() {
+    final dio = Dio();
+    dio.options.baseUrl = dotenv.env["API_ENDPOINT"] as String;
+    dio.interceptors.add(ApiInterceptors(dio: dio));
+    dio.options.connectTimeout = const Duration(seconds: 30);
+    dio.options.headers['Content-Type'] = 'application/json';
+    // if (AppConstants.qcEnv == dotenv.env[AppConstants.nameEnv]) {
+    //   dio.options.headers['Ocp-Apim-Subscription-Key'] =
+    //       '13770a49b6274b2da166a3d220006ad5';
+    //   dio.options.headers['Api-Version'] = 'v1';
+    // }
 
-enum ApiMethod { post, get }
+    // dio.options.headers['Accept'] = 'text/json';
+    dio.interceptors.add(LogInterceptor(
+      requestHeader: true,
+      requestBody: true,
+      responseBody: true
+    ));
+    return dio;
+  }
+}
 
-class ApiRequestManager {
-  static Stream<T> request<T>(
-      {required ApiMethod method,
-      required String url,
-      required T Function(String) convert,
-      String? parameter,
-      Map<String, String>? header}) async* {
-    final http.Response response;
-    Map<String, String> _header = {'Content-type': 'application/json'};
-    if (header != null) {
-      _header.addAll(header);
-    }
-    switch (method) {
-      case ApiMethod.get:
-        response = await http.get(Uri.parse(url), headers: _header);
-        break;
-      case ApiMethod.post:
-        response =
-            await http.post(Uri.parse(url), headers: _header, body: parameter);
-    }
-    if (200 <= response.statusCode && response.statusCode <= 299) {
-      log(response.body);
-      yield convert(const Utf8Decoder().convert(response.bodyBytes));
-    } else {
-      throw ResponseError(
-          message: "Response Error ${response.statusCode}",
-          code: response.statusCode);
-    }
+class ApiInterceptors extends InterceptorsWrapper {
+  ApiInterceptors({required this.dio});
+
+  final Dio dio;
+  @override
+  Future<void> onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    super.onRequest(options, handler);
+  }
+
+
+  @override
+  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+    super.onError(err, handler);
+
+   
   }
 }

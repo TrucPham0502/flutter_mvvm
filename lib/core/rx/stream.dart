@@ -23,7 +23,19 @@ class BehaviorProperty<T> {
 extension DataTrackerStreamSubscriton<T> on Stream<ApiResponse<T>> {
   Stream<T> trackData() {
     return map((event) {
-      if (event.resultCode == ApiResponse.Success) {
+      if (event.resultCode == StatusCode.success.value) {
+        return event.data;
+      } else {
+        throw ApiError(message: event.message, code: event.resultCode);
+      }
+    });
+  }
+}
+
+extension ListDataTrackerStreamSubscriton<T> on Stream<ListResponse<T>> {
+  Stream<List<T>> trackData() {
+    return map((event) {
+      if (event.resultCode == StatusCode.success.value) {
         return event.data;
       } else {
         throw ApiError(message: event.message, code: event.resultCode);

@@ -50,7 +50,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
 
   @override
   HomeViewModel makeViewModel() {
-    return HomeViewModel();
+    return HomeViewModel(getIt.get());
   }
 
   @override
@@ -335,7 +335,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
                     onTap: () {},
                     child: CircleAvatar(
                       radius: 25,
-                      backgroundImage: Assets.images.man as ImageProvider,
+                      backgroundImage: Assets.images.man.provider(),
                     ),
                   ),
                 ]),
