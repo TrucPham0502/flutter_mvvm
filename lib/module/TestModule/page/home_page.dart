@@ -38,7 +38,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
   @override
   void initState() {
     super.initState();
-    output.foodCategoryitems.subject.listen((value) {
+    output.foodCategoryitems.asStream().listen((value) {
       if (value.length > 1 && selectedFoodCard == -1) {
         selectedFoodCard = 1;
         if (value.length > 2) {
@@ -86,7 +86,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
         height: 240,
         child: StreamBuilder<List<FoodCategory>>(
           initialData: const [],
-          stream: output.foodCategoryitems.subject,
+          stream: output.foodCategoryitems.asStream(),
           builder: (context, snapshot) {
             return PageView.builder(
                 allowImplicitScrolling: true,
@@ -172,7 +172,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
 
   Widget _popular(BuildContext context) {
     return StreamBuilder(
-        stream: output.popularFoodItems.subject,
+        stream: output.popularFoodItems.asStream(),
         builder: (context, snapshot) {
           return ListView.builder(
               shrinkWrap: true,
@@ -361,9 +361,9 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
                           const SizedBox(
                             height: 10,
                           ),
-                          Row(
+                          const Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
+                            children: [
                               SizedBox(
                                 width: 20,
                               ),

@@ -1,19 +1,20 @@
 import 'package:rxdart/rxdart.dart';
 
 class ErrorTracker {
-  final PublishSubject<Object> _subject = PublishSubject<Object>();
+  final PublishSubject<Error> _subject = PublishSubject<Error>();
   Stream<T> trackError<T>(Stream<T> source) {
     return source
-        .doOnError((p0, p1) => onError(p0, p1))
+        .doOnError((p0, p1) => onError(p0 as Error, p1))
         .doOnCancel(() => onCancel)
-        .doOnDone(() {});
+        .doOnDone(() {})
+        .onErrorResumeNext(const Stream.empty());
   }
 
-  void onError(Object error, StackTrace track) {
+  void onError(Error error, StackTrace track) {
     _subject.add(error);
   }
 
-  Stream<Object> asStream() {
+  Stream<Error> asStream() {
     return _subject;
   }
 

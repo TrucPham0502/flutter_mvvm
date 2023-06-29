@@ -85,11 +85,16 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
     output = viewModel.transform(makeInput());
   }
 
-  void handleError(Object error) {
-    if (error is AppError) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("error: ${error.message} code: ${error.code}"),
-      ));
+  void handleError(Error error) {
+    switch(error.runtimeType) {
+      case ApiError: {
+        final _err = error as ApiError;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("error: ${_err.message} code: ${_err.code}"),
+        ));
+        break;
+      }
+    default: print("handle error: ${error.stackTrace}");
     }
   }
 

@@ -95,7 +95,7 @@ class _CartPage extends BaseStatePage<CartPageViewModel, CartPageInput,
                       );
                     });
               },
-              stream: output.items.subject,
+              stream: output.items.asStream(),
               initialData: const [],
             ),
           )),

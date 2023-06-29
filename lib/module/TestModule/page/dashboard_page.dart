@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/core/router/routes.dart';
 import 'package:mvvm/module/TestModule/page/tabbar_page.dart';
 import 'package:mvvm/module/common/colors.dart';
 import 'package:mvvm/module/common/ui/menu_dashboard.dart';
@@ -132,9 +133,9 @@ class DasboardPage extends MenuDashboard {
               })),
             ),
             GestureDetector(
-              child: Row(
+              child: const Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: const [
+                children: [
                   Icon(
                     Icons.logout_outlined,
                     size: 20,
@@ -151,7 +152,10 @@ class DasboardPage extends MenuDashboard {
                   )
                 ],
               ),
-              onTap: () {},
+              onTap: () {
+                Routes.setRoot(context, RoutesPath.signin);
+
+              },
             ),
             const SizedBox(
               height: 40,

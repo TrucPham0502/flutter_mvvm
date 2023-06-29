@@ -14,9 +14,9 @@ abstract class HomeRestClient {
   @factoryMethod
   factory HomeRestClient(Dio dio) = _HomeRestClient;
 
-  @POST("/api/sme/access-list")
-  Stream<ListResponse<HomeResponse>> getData();
-  
+  @GET("/home")
+  Stream<ApiListResponse<FoodCategory>> getData();
+
   @POST("/api/sme/CameraSetting")
   Stream<ApiResponse<HomeResponse>> getData1();
 }

@@ -32,39 +32,24 @@ class ApiResponse<T> {
     return _$ApiResponseFromJson(json, fromJsonT);
   }
 
-  // static T _fromJson<T extends JsonSerializable>(
-  //     Object? json, T Function(Object? json) fromJsonT) {
-  //   return fromJsonT(json);
-  // }
-
   Map<String, dynamic> toJson(Object? Function(T value) toJsonT) => _$ApiResponseToJson(this, toJsonT);
-
-  // factory ListResponse.fromList(List<T> list,
-  //     {String message = '',  int resultCode = 1}) {
-  //   return ListResponse(
-  //       message: message, resultCode: resultCode, data: List<T>.from(list));
-  // }
-
-  // factory ListResponse.empty({String message = '', int resultCode = 1}) {
-  //   return ListResponse(message: message, resultCode: resultCode, data: []);
-  // }
 }
 
 
 @JsonSerializable(genericArgumentFactories: true)
-class ListResponse<T> {
+class ApiListResponse<T> {
   List<T> data;
   String message;
   int resultCode;
-  ListResponse({
+  ApiListResponse({
     required this.message,
     required this.resultCode,
     required this.data,
   });
 
-  factory ListResponse.fromJson(
+  factory ApiListResponse.fromJson(
       Map<String, dynamic> json, T Function(Object? json) fromJsonT) {
-    return _$ListResponseFromJson(json, fromJsonT);
+    return _$ApiListResponseFromJson(json, fromJsonT);
   }
 
   // static T _fromJson<T extends JsonSerializable>(
@@ -72,7 +57,7 @@ class ListResponse<T> {
   //   return fromJsonT(json);
   // }
 
-  Map<String, dynamic> toJson(Object? Function(T value) toJsonT) => _$ListResponseToJson(this, toJsonT);
+  Map<String, dynamic> toJson(Object? Function(T value) toJsonT) => _$ApiListResponseToJson(this, toJsonT);
 
   // factory ListResponse.fromList(List<T> list,
   //     {String message = '',  int resultCode = 1}) {

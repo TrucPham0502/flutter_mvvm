@@ -200,7 +200,7 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                           height: 100,
                           child: StreamBuilder<List<Ingredients>>(
                             initialData: [],
-                            stream: output.ingredients.subject,
+                            stream: output.ingredients.asStream(),
                             builder: (context, snap) => ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: output.ingredients.value.length,

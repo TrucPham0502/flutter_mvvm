@@ -5,7 +5,7 @@ import 'package:mvvm/module/TestModule/repositories/test_repository.dart';
 
 
 abstract class HomeService {
-  Stream<List<HomeResponse>> getData();
+  Stream<List<FoodCategory>> getData();
   Stream<HomeResponse> getData1();
 }
 
@@ -14,7 +14,7 @@ class HomeServiceImpl extends BaseService with HomeService {
   HomeServiceImpl({required this.repository});
   final TestRepository repository;
   @override
-  Stream<List<HomeResponse>> getData() {
+  Stream<List<FoodCategory>> getData() {
     return repository.getData();
   }
   

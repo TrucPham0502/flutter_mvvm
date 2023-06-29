@@ -5,6 +5,7 @@ import 'package:mvvm/core/router/route_handles.dart';
 class RoutesPath {
      static String home = "/"; 
      static String signup = "/account/signup"; 
+     static String signin = "/account/signin"; 
      static String forgotPassword = "/account/forgot"; 
      static String foodDetail = "/Food/detail"; 
 }
@@ -16,6 +17,7 @@ class Routes {
     router.define(RoutesPath.signup, handler: signupHandler);
     router.define(RoutesPath.forgotPassword, handler: forgotHandler);
     router.define(RoutesPath.foodDetail, handler: foodDetailHandler);
+    router.define(RoutesPath.signin, handler: signInHandler);
   }
 
   static push(BuildContext context, String path, { Object? data }) {

@@ -19,27 +19,27 @@ class _HomeRestClient implements HomeRestClient {
   String? baseUrl;
 
   @override
-  Stream<ListResponse<HomeResponse>> getData() async* {
+  Stream<ApiListResponse<FoodCategory>> getData() async* {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ListResponse<HomeResponse>>(Options(
-      method: 'POST',
+        _setStreamType<ApiListResponse<FoodCategory>>(Options(
+      method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/sme/access-list',
+              '/home',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ListResponse<HomeResponse>.fromJson(
+    final value = ApiListResponse<FoodCategory>.fromJson(
       _result.data!,
-      (json) => HomeResponse.fromJson(json as Map<String, dynamic>),
+      (json) => FoodCategory.fromJson(json as Map<String, dynamic>),
     );
     yield value;
   }

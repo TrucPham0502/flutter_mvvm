@@ -4,16 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "FLUTTER MVVM DEV",
             "request": "launch",
             "program": "lib/dev.dart",
             "type": "dart",
             "flutterMode": "debug",
-            // "args": [
-            //     "--flavor",
-            //     "dev"
-            // ]
 
         },
         {
@@ -22,10 +19,6 @@
             "program": "lib/prod.dart",
             "type": "dart",
             "flutterMode": "debug",
-            // "args": [
-            //     "--flavor",
-            //     "uat"
-            // ]
 
         },
         {
@@ -34,10 +27,6 @@
             "program": "lib/prod.dart",
             "type": "dart",
             "flutterMode": "profile",
-            // "args": [
-            //     "--flavor",
-            //     "uat"
-            // ]
 
         },
         {
@@ -46,10 +35,6 @@
             "program": "lib/prod.dart",
             "type": "dart",
             "flutterMode": "release",
-            // "args": [
-            //     "--flavor",
-            //     "prod"
-            // ]
 
         },
     ]

@@ -9,19 +9,22 @@ import '../error/error.dart';
 class BehaviorProperty<T> {
   BehaviorProperty(T value) {
     _value = value;
-    subject = BehaviorSubject<T>.seeded(value);
+    _subject = BehaviorSubject<T>.seeded(value);
   }
   late T _value;
   T get value => _value;
-  late BehaviorSubject<T> subject;
+  late BehaviorSubject<T> _subject;
+  BehaviorSubject<T> asStream() {
+    return _subject;
+  }
   void add(T value) {
     _value = value;
-    subject.add(value);
+    _subject.add(value);
   }
 }
 
 extension DataTrackerStreamSubscriton<T> on Stream<ApiResponse<T>> {
-  Stream<T> trackData() {
+  Stream<T> validate() {
     return map((event) {
       if (event.resultCode == StatusCode.success.value) {
         return event.data;
@@ -32,8 +35,8 @@ extension DataTrackerStreamSubscriton<T> on Stream<ApiResponse<T>> {
   }
 }
 
-extension ListDataTrackerStreamSubscriton<T> on Stream<ListResponse<T>> {
-  Stream<List<T>> trackData() {
+extension ListDataTrackerStreamSubscriton<T> on Stream<ApiListResponse<T>> {
+  Stream<List<T>> validate() {
     return map((event) {
       if (event.resultCode == StatusCode.success.value) {
         return event.data;
@@ -56,7 +59,7 @@ extension AppWidget<T> on Widget {
   StreamBuilder<T> setState(BehaviorProperty<T> data, T? initialData) {
     return StreamBuilder(
         initialData: initialData,
-        stream: data.subject,
+        stream: data.asStream(),
         builder: (context, snap) {
           return this;
         });

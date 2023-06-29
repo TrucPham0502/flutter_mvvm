@@ -4,7 +4,7 @@ import 'package:mvvm/module/TestModule/repositories/home_rest_client.dart';
 import '../model/home_response.dart';
 
 abstract class TestRemoteSource {
-  Stream<ListResponse<HomeResponse>> getData();
+  Stream<ApiListResponse<FoodCategory>> getData();
   Stream<ApiResponse<HomeResponse>> getData1();
 }
 
@@ -14,7 +14,7 @@ class TestRemoteSourceImpl extends TestRemoteSource {
 
   TestRemoteSourceImpl(this.restClient);
   @override
-  Stream<ListResponse<HomeResponse>> getData() {
+  Stream<ApiListResponse<FoodCategory>> getData() {
     return restClient.getData();
   }
   
