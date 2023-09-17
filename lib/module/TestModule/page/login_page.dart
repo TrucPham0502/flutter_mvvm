@@ -1,48 +1,36 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/core/core.dart';
-import 'package:mvvm/module/TestModule/page/recover_page.dart';
-import 'package:mvvm/module/TestModule/page/register_page.dart';
+import 'package:mvvm/main.dart';
 import 'package:mvvm/module/TestModule/viewmodel/login_viewmodel.dart';
 import 'package:mvvm/module/common/ui/primary_button.dart';
 import 'package:mvvm/module/common/ui/primary_text.dart';
 
+import '../../../core/base/base_page.dart';
+import '../../../core/base/base_stateful_widget_page.dart';
 import '../../../core/router/routes.dart';
 import '../../common/colors.dart';
 import '../../common/ui/circles_background.dart';
-import '../../common/ui/navigation_bar.dart';
 import '../../common/ui/primary_text_field.dart';
 import '../../common/ui/underlined_button.dart';
-import 'dashboard_page.dart';
 
-class LoginPage extends BaseStatefulWidgetPage {
-  LoginPage({Key? key}) : super(key: key);
-
+class LoginPage extends BaseStatefulWidgetPage<LoginViewModel> {
+  const LoginPage({super.key, required super.viewModel});
   @override
-  State<StatefulWidget> createState() => _LoginPage();
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _LoginPage(viewModel: viewModel);
 }
 
-class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
-    LoginViewModelOutput, LoginPage> {
-  bool _loading = false;
+class _LoginPage extends BasePage<LoginViewModel> {
+  final bool _loading = false;
 
-  @override
-  LoginViewModelInput makeInput() {
-    return LoginViewModelInput();
-  }
-
-  @override
-  LoginViewModel makeViewModel() {
-    return LoginViewModel();
-  }
-
+  _LoginPage({required super.viewModel});
   Widget _form(FocusScopeNode node, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         PrimaryTextField(
           textColor: AppColors.white,
-          label: 'Username',
+          label: AppLocalizations.of(context)!.username,
           usernameField: true,
           onChanged: (value) => setState(() {
             // _username = value;
@@ -54,7 +42,7 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
         ),
         PrimaryTextField(
           textColor: AppColors.white,
-          label: 'Password',
+          label: AppLocalizations.of(context)!.password,
           // controller: _passwordController,
           passwordField: true,
           onSubmitted: (_) {
@@ -68,8 +56,8 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
         ),
         Row(
           children: [
-            const PrimaryText(
-              text: 'Sign In',
+            PrimaryText(
+              text: AppLocalizations.of(context)!.signin,
               fontWeight: FontWeight.w700,
               size: 30,
             ),
@@ -77,9 +65,7 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             PrimaryButton(
               radius: BorderRadius.circular(50),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              onPressed: () => {
-                Routes.setRoot(context, RoutesPath.home)
-              },
+              onPressed: () => {Routes.setRoot(context, RoutesPath.home)},
               loading: _loading,
               child: const Icon(Icons.arrow_forward),
             )
@@ -91,7 +77,7 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
 
   Widget _thirdPartySignInButtons(BuildContext context) {
     return SizedBox(
-      width: 230,
+      width: 270,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,18 +90,18 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.black,
             onPressed: () => {},
-            child: const Row(
+            child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.apple,
                     size: 20,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   PrimaryText(
-                    text: "Sign in with Apple",
+                    text: AppLocalizations.of(context)!.signinWithApple,
                     color: AppColors.white,
                     size: 15,
                     fontWeight: FontWeight.w500,
@@ -131,19 +117,19 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.facebook,
             onPressed: () => {},
-            child: const Row(
+            child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.facebook,
                     size: 20,
                     color: AppColors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   PrimaryText(
-                      text: "Sign in with Facebook",
+                      text: AppLocalizations.of(context)!.signinWithFacebook,
                       color: AppColors.white,
                       size: 15,
                       fontWeight: FontWeight.w500)
@@ -158,19 +144,19 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.google,
             onPressed: () => {},
-            child: const Row(
+            child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.android,
                     size: 20,
                     color: AppColors.white,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   PrimaryText(
-                      text: "Sign in with Google",
+                      text: AppLocalizations.of(context)!.signinWithGoogle,
                       color: AppColors.white,
                       size: 15,
                       fontWeight: FontWeight.w500)
@@ -192,16 +178,14 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
               // Navigator.pushNamed(context, RoutesPath.signup)
               Routes.push(context, RoutesPath.signup)
             },
-            child: const PrimaryText(
-                text: 'Sign Up', size: 18, fontWeight: FontWeight.w700),
+            child: PrimaryText(
+                text: AppLocalizations.of(context)!.signUp, size: 18, fontWeight: FontWeight.w700),
             color: AppColors.lightGray,
           ),
           UnderlinedButton(
-            onPressed: () => {
-              Routes.push(context, RoutesPath.forgotPassword)
-            },
-            child: const PrimaryText(
-              text: 'Forgot Password',
+            onPressed: () => {Routes.push(context, RoutesPath.forgotPassword)},
+            child: PrimaryText(
+              text: AppLocalizations.of(context)!.forgotPassword,
               size: 18,
               fontWeight: FontWeight.w700,
             ),
@@ -235,8 +219,8 @@ class _LoginPage extends BaseStatePage<LoginViewModel, LoginViewModelInput,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const PrimaryText(
-                  text: "Welcome Back",
+                PrimaryText(
+                  text: AppLocalizations.of(context)!.welcomeBack,
                   color: AppColors.white,
                   fontWeight: FontWeight.w900,
                   size: 40,

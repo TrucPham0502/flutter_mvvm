@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/core/core.dart';
-import 'package:mvvm/module/TestModule/page/login_page.dart';
 import 'package:mvvm/module/TestModule/viewmodel/register_viewmodel.dart';
 import 'package:mvvm/module/common/ui/navigation_bar.dart';
 
+import '../../../core/base/base_page.dart';
+import '../../../core/base/base_stateful_widget_page.dart';
+import '../../../core/router/routes.dart';
 import '../../common/colors.dart';
 import '../../common/ui/circles_background.dart';
 import '../../common/ui/primary_button.dart';
@@ -11,23 +12,24 @@ import '../../common/ui/primary_text.dart';
 import '../../common/ui/primary_text_field.dart';
 import '../../common/ui/underlined_button.dart';
 
-class RegisterPage extends BaseStatefulWidgetPage {
-  const RegisterPage({Key? key}) : super(key: key);
-
+class RegisterPage extends BaseStatefulWidgetPage<RegisterViewModel> {
+  const RegisterPage({super.key, required super.viewModel});
   @override
-  State<StatefulWidget> createState() => _RegisterPage();
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _RegisterPage(viewModel: viewModel);
 }
 
-class _RegisterPage extends BaseStatePage<RegisterViewModel,
-    RegisterViewModelInput, RegisterViewModelOutput, RegisterPage> {
-  @override
-  RegisterViewModelInput makeInput() {
-    return RegisterViewModelInput();
-  }
+class _RegisterPage extends BasePage<RegisterViewModel> {
+  late RegisterViewModelOutput output;
+
+  _RegisterPage({required super.viewModel});
+
 
   @override
-  RegisterViewModel makeViewModel() {
-    return RegisterViewModel();
+  void performBinding() {
+    super.performBinding();
+    final input = RegisterViewModelInput();
+    output = viewModel.transform(input);
   }
 
   Widget _form(FocusScopeNode node, BuildContext context) {
@@ -95,8 +97,7 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
         children: [
           UnderlinedButton(
             onPressed: () => {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LoginPage()))
+              Routes.push(context, RoutesPath.signin)
             },
             child: const PrimaryText(
                 text: 'Sign In', size: 18, fontWeight: FontWeight.w700),
@@ -176,9 +177,9 @@ class _RegisterPage extends BaseStatePage<RegisterViewModel,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.google,
             onPressed: () => {},
-            child: Row(
+            child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(
                     Icons.android,
                     size: 20,

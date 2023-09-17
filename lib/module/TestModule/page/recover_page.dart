@@ -1,31 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/core/core.dart';
 import 'package:mvvm/module/TestModule/viewmodel/recover_viewmodel.dart';
 import 'package:mvvm/module/common/ui/circles_background.dart';
 
+import '../../../core/base/base_page.dart';
+import '../../../core/base/base_stateful_widget_page.dart';
 import '../../common/colors.dart';
 import '../../common/ui/navigation_bar.dart';
 import '../../common/ui/primary_button.dart';
 import '../../common/ui/primary_text.dart';
 import '../../common/ui/primary_text_field.dart';
 
-class RecoverPage extends BaseStatefulWidgetPage {
-  const RecoverPage({Key? key}) : super(key: key);
+class RecoverPage extends BaseStatefulWidgetPage<RecoverViewModel> {
+  const RecoverPage({super.key, required super.viewModel});
+
 
   @override
-  State<StatefulWidget> createState() => _RecoverPage();
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _RecoverPage(viewModel: viewModel);
 }
 
-class _RecoverPage extends BaseStatePage<RecoverViewModel,
-    RecoverViewModelInput, RecoverViewModelOutput, RecoverPage> {
-  @override
-  RecoverViewModelInput makeInput() {
-    return RecoverViewModelInput();
-  }
+class _RecoverPage extends BasePage<RecoverViewModel> {
+  late RecoverViewModelOutput output;
+
+  _RecoverPage({required super.viewModel});
+
 
   @override
-  RecoverViewModel makeViewModel() {
-    return RecoverViewModel();
+  void performBinding() {
+    // TODO: implement performBinding
+    super.performBinding();
+    final input = RecoverViewModelInput();
+    output = viewModel.transform(input);
   }
 
   Widget _form(FocusScopeNode node, BuildContext context) {

@@ -1,4 +1,5 @@
-import 'package:mvvm/core/core.dart';
+
+import '../../../core/base/base_viewmodel.dart';
 
 class RegisterViewModelInput {}
 

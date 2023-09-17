@@ -1,16 +1,17 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mvvm/module/TestModule/page/detail_page.dart';
-import 'package:mvvm/module/TestModule/page/login_page.dart';
+import 'package:mvvm/core/core.dart';
+import 'package:mvvm/core/rx/disposable_widget.dart';
 import 'package:mvvm/module/common/colors.dart';
 import 'package:mvvm/gen/assets.gen.dart';
 import 'package:mvvm/module/common/ui/menu_dashboard.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:mvvm/core/core.dart';
+import '../../../core/base/base_page.dart';
+import '../../../core/base/base_stateful_widget_page.dart';
 import '../../../core/router/routes.dart';
+import '../../../main.dart';
 import '../../common/ui/circles_background.dart';
 import '../../common/ui/primary_text.dart';
 import '../model/home_response.dart';
@@ -18,15 +19,16 @@ import '../viewmodel/home_viewmodel.dart';
 
 
 
-class MyHomePage extends BaseStatefulWidgetPage {
-  const MyHomePage({ super.key });
+class MyHomePage extends BaseStatefulWidgetPage<HomeViewModel> {
+  const MyHomePage({ super.key, required super.viewModel });
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _MyHomePageState(viewModel: viewModel);
 }
 
-class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
-    HomeViewModelOutput, MyHomePage> with TickerProviderStateMixin {
+class _MyHomePageState extends BasePage<HomeViewModel> with TickerProviderStateMixin {
+  late HomeViewModelOutput output;
   final _textSearchController = TextEditingController();
   final textSearch = PublishSubject<String>();
   final scrollController = ScrollController();
@@ -34,6 +36,10 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
       PageController(viewportFraction: 0.4, initialPage: 0);
   List<HomeResponse> data = [];
   int selectedFoodCard = -1;
+
+  _MyHomePageState({required super.viewModel});
+
+
 
   @override
   void initState() {
@@ -50,13 +56,11 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
   }
 
   @override
-  HomeViewModel makeViewModel() {
-    return HomeViewModel(getIt.get());
-  }
-
-  @override
-  HomeViewModelInput makeInput() {
-    return HomeViewModelInput(textSearch, viewDidApearing);
+  void performBinding() {
+    // TODO: implement performBinding
+    super.performBinding();
+    final input = HomeViewModelInput(textSearch, stateLoaded);
+    output = viewModel.transform(input);
   }
 
   @override
@@ -182,7 +186,7 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
                 var item = output.popularFoodItems.value[index];
                 return GestureDetector(
                   onTap: () {
-                    Routes.push(context, RoutesPath.foodDetail, data: item);
+                      Routes.push(context, RoutesPath.foodDetail, data: item);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 25, left: 10, top: 25),
@@ -208,21 +212,21 @@ class _MyHomePageState extends BaseStatePage<HomeViewModel, HomeViewModelInput,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  const Row(
+                                  Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.star,
                                         size: 20,
                                         color: AppColors.primary,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       PrimaryText(
-                                        text: "top of the week",
+                                        text: AppLocalizations.of(context)!.topOfTheWeek,
                                         size: 16,
                                       ),
                                     ],

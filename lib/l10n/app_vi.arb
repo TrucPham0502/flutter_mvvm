@@ -1,5 +1,20 @@
 {
-  "helloWorld": "¡Hola Mundo!",
-  "helloWorld2": "¡Hola Mundo!2",
-  "helloWorld3": "¡Hola Mundo!3"
+   "signin": "Đăng nhập",
+   "signUp" : "Đăng ký",
+  "topOfTheWeek": "Top của tuần",
+  "dashboard": "Trang chủ",
+  "news": "Tin tức",
+  "contact": "Liên hệ",
+  "store": "Cửa hàng",
+  "setting": "Cài đặt",
+  "logout" : "Đăng xuất",
+  "history" : "Lịch sử",
+  "changeLanguage" : "Đổi ngôn ngữ",
+  "username": "Tên đăng nhập",
+  "password": "Mật khẩu",
+  "signinWithApple": "Đăng nhập với Apple",
+  "signinWithFacebook": "Đăng nhập với Facebook",
+  "signinWithGoogle": "Đăng nhập với Google",
+  "forgotPassword" : "Quên mật khẩu",
+  "welcomeBack" : "Chào mừng trở lại"
 }

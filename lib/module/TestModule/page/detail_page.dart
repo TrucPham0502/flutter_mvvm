@@ -1,41 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mvvm/core/core.dart';
 import 'package:mvvm/gen/assets.gen.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
-import 'package:mvvm/module/TestModule/page/cart_page.dart';
 import 'package:mvvm/module/common/ui/navigation_bar.dart';
 import 'package:mvvm/module/common/ui/primary_button.dart';
 
+import '../../../core/base/base_page.dart';
+import '../../../core/base/base_stateful_widget_page.dart';
+import '../../../core/router/routes.dart';
+import '../../../main.dart';
 import '../../common/colors.dart';
 import '../../common/ui/circles_background.dart';
 import '../../common/ui/primary_text.dart';
 import '../viewmodel/detail_viewmodel.dart';
 
-class DetailPage extends BaseStatefulWidgetPage {
-  final PopularFoodList data;
-  const DetailPage(this.data, { super.key });
+// ignore: must_be_immutable
+class DetailPage extends BaseStatefulWidgetPage<DetailViewModel> {
+  late PopularFoodList data;
+  DetailPage({super.key, required super.viewModel});
   @override
-  State<StatefulWidget> createState() => _DetailPageState();
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _DetailPageState(data, viewModel: viewModel);
 }
 
-class _DetailPageState extends BaseStatePage<DetailViewModel,
-    DetailViewModelInput, DetailViewModelOutput, DetailPage> {
-  // @override
-  // PreferredSizeWidget appBar(BuildContext context) {
-  //   return AppBar(
-  //     title: Text(AppLocalizations.of(context)!.helloWorld3),
-  //   );
-  // }
+class _DetailPageState extends BasePage<DetailViewModel> {
+  final PopularFoodList data;
+  late DetailViewModelOutput output;
 
+  _DetailPageState(this.data, {required super.viewModel});
   @override
-  DetailViewModel makeViewModel() {
-    return DetailViewModel();
-  }
-
-  @override
-  DetailViewModelInput makeInput() {
-    return DetailViewModelInput(viewDidApearing);
+  void performBinding() {
+    super.performBinding();
+    final input = DetailViewModelInput(stateLoaded);
+    output = viewModel.transform(input);
   }
 
   @override
@@ -81,7 +78,7 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: PrimaryText(
-                          text: widget.data.name,
+                          text: data.name,
                           size: 45,
                           fontWeight: FontWeight.w600,
                         ),
@@ -99,7 +96,7 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                               width: 15,
                             ),
                             PrimaryText(
-                              text: widget.data.price.toString(),
+                              text: data.price.toString(),
                               size: 48,
                               fontWeight: FontWeight.w700,
                               color: AppColors.tertiary,
@@ -165,7 +162,7 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                                   ]),
                             ),
                             Hero(
-                              tag: widget.data.image,
+                              tag: data.image,
                               child: Container(
                                 decoration: BoxDecoration(
                                   boxShadow: [
@@ -176,8 +173,8 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 height: 200,
-                                child: Image.asset(widget.data.image,
-                                    fit: BoxFit.cover),
+                                child:
+                                    Image.asset(data.image, fit: BoxFit.cover),
                               ),
                             )
                           ],
@@ -243,8 +240,7 @@ class _DetailPageState extends BaseStatePage<DetailViewModel,
                     ),
                     child: PrimaryButton(
                       onPressed: () => {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (c) => CartPage()))
+                        Routes.push(context, RoutesPath.cart)
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,

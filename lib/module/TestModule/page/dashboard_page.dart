@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm/core/core.dart';
 import 'package:mvvm/core/router/routes.dart';
+import 'package:mvvm/main.dart';
 import 'package:mvvm/module/TestModule/page/tabbar_page.dart';
 import 'package:mvvm/module/common/colors.dart';
 import 'package:mvvm/module/common/ui/menu_dashboard.dart';
@@ -15,17 +17,11 @@ class DataMenu {
   DataMenu(this.icon, this.title, {this.isBadge = false});
 }
 
+// ignore: must_be_immutable
 class DasboardPage extends MenuDashboard {
   DasboardPage({ super.key });
   var _index = 0;
-  List<DataMenu> arrDataMenu = [
-    DataMenu(Icons.apps, "Dashboard"),
-    DataMenu(Icons.newspaper, "News"),
-    DataMenu(Icons.history, "History"),
-    DataMenu(Icons.call, "Contact"),
-    DataMenu(Icons.store, "Store"),
-    DataMenu(Icons.settings, "Setting")
-  ];
+  List<DataMenu> arrDataMenu = [];
   @override
   List<Widget> dashboard(BuildContext context) {
     return [TabbarPage()];
@@ -33,6 +29,14 @@ class DasboardPage extends MenuDashboard {
 
   @override
   Widget? menu(BuildContext context) {
+     arrDataMenu = [
+        DataMenu(Icons.apps, AppLocalizations.of(context)!.dashboard),
+        DataMenu(Icons.newspaper, AppLocalizations.of(context)!.news),
+        DataMenu(Icons.history, AppLocalizations.of(context)!.history),
+        DataMenu(Icons.call, AppLocalizations.of(context)!.contact),
+        DataMenu(Icons.store, AppLocalizations.of(context)!.store),
+        DataMenu(Icons.settings, AppLocalizations.of(context)!.setting)
+    ];
     return Container(
       padding: const EdgeInsets.only(left: 20, top: 20),
       width: 200,
@@ -50,7 +54,8 @@ class DasboardPage extends MenuDashboard {
               height: 15,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+              },
               child: const Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -133,19 +138,47 @@ class DasboardPage extends MenuDashboard {
               })),
             ),
             GestureDetector(
-              child: const Row(
+              child:  Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Icon(
+                  const Icon(
+                    Icons.language,
+                    size: 20,
+                    color: AppColors.black,
+                  ),
+                  const SizedBox(
+                    width: 7,
+                  ),
+                  PrimaryText(
+                    text: AppLocalizations.of(context)!.changeLanguage,
+                    size: 18,
+                    color: AppColors.black,
+                    fontWeight: FontWeight.w500,
+                  )
+                ],
+              ),
+              onTap: () {
+                MyApp.setLocale(context, Language.vi);
+
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  const Icon(
                     Icons.logout_outlined,
                     size: 20,
                     color: AppColors.black,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 7,
                   ),
                   PrimaryText(
-                    text: "Log out",
+                    text: AppLocalizations.of(context)!.logout,
                     size: 18,
                     color: AppColors.black,
                     fontWeight: FontWeight.w500,

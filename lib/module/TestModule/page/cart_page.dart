@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mvvm/core/core.dart';
 import 'package:mvvm/module/TestModule/viewmodel/cart_viewmodel.dart';
 import 'package:mvvm/module/common/ui/circles_background.dart';
 import 'package:mvvm/module/common/ui/navigation_bar.dart';
 import 'package:mvvm/module/common/ui/primary_button.dart';
 import 'package:mvvm/module/common/ui/primary_text.dart';
 
+import '../../../core/base/base_page.dart';
+import '../../../core/base/base_stateful_widget_page.dart';
 import '../../../gen/assets.gen.dart';
 import '../../common/colors.dart';
 
-class CartPage extends BaseStatefulWidgetPage {
+class CartPage extends BaseStatefulWidgetPage<CartPageViewModel> {
+  const CartPage({super.key, required super.viewModel});
   @override
-  State<StatefulWidget> createState() => _CartPage();
+  // ignore: no_logic_in_create_state
+  State<StatefulWidget> createState() => _CartPage(viewModel: viewModel);
 }
 
-class _CartPage extends BaseStatePage<CartPageViewModel, CartPageInput,
-    CartPageOutphut, CartPage> {
-  @override
-  CartPageInput makeInput() {
-    return CartPageInput(viewDidApearing);
-  }
+class _CartPage extends BasePage<CartPageViewModel> {
+  late CartPageOutput output;
+
+  _CartPage({required super.viewModel});
 
   @override
-  CartPageViewModel makeViewModel() {
-    return CartPageViewModel();
+  void performBinding() {
+    super.performBinding();
+    final input = CartPageInput(stateLoaded);
+    output = viewModel.transform(input);
   }
 
   @override
@@ -121,8 +124,8 @@ class _CartPage extends BaseStatePage<CartPageViewModel, CartPageInput,
                           color: AppColors.tertiary,
                         ),
                       ),
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           PrimaryText(
                             text: "Add voucher code",
                             size: 15,
@@ -144,8 +147,8 @@ class _CartPage extends BaseStatePage<CartPageViewModel, CartPageInput,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: const [
+                      const Column(
+                        children: [
                           PrimaryText(
                             text: "Total:",
                             size: 15,

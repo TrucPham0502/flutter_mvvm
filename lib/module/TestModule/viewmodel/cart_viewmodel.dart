@@ -1,15 +1,21 @@
-import 'package:mvvm/core/core.dart';
+
+import 'package:mvvm/core/rx/activity_indicator.dart';
+import 'package:mvvm/core/rx/disposable_widget.dart';
+import 'package:mvvm/core/rx/error_tracker.dart';
 import 'package:mvvm/gen/assets.gen.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../core/base/base_viewmodel.dart';
+import '../../../core/rx/stream.dart';
+
 class CartPageInput {
-  final Stream viewApearing;
-  CartPageInput(this.viewApearing);
+  final Stream stateLoaded;
+  CartPageInput(this.stateLoaded);
 }
 
-class CartPageOutphut {
+class CartPageOutput {
   BehaviorProperty<List<CartPageModel>> items;
-  CartPageOutphut(this.items);
+  CartPageOutput(this.items);
 }
 
 class CartPageModel {
@@ -20,18 +26,18 @@ class CartPageModel {
   CartPageModel(this.image, this.name, this.price, this.quantity);
 }
 
-class CartPageViewModel extends BaseViewModel<CartPageInput, CartPageOutphut> {
+class CartPageViewModel extends BaseViewModel<CartPageInput, CartPageOutput> {
   BehaviorProperty<List<CartPageModel>> items =
       BehaviorProperty<List<CartPageModel>>([]);
   @override
-  CartPageOutphut transform(CartPageInput input) {
-    input.viewApearing
+  CartPageOutput transform(CartPageInput input) {
+    input.stateLoaded
         .flatMap((value) => getData())
         .trackActivity(activityIndicator)
         .trackError(errorTracker)
         .drive(items)
         .canceledBy(this);
-    return CartPageOutphut(items);
+    return CartPageOutput(items);
   }
 
   Stream<List<CartPageModel>> getData() {

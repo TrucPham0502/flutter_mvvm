@@ -1,5 +1,20 @@
 {
-  "helloWorld": "Hello World!",
-  "helloWorld2": "¡Hola Mundo!2",
-  "helloWorld3": "¡Hola Mundo!3"
+  "signin": "Sign In",
+  "signUp" : "Sign Up",
+  "topOfTheWeek": "top of the week",
+  "dashboard": "Dashboard",
+  "news": "News",
+  "contact": "Contact",
+  "store": "Store",
+  "setting": "Setting",
+  "logout" : "Logout",
+   "history" : "History",
+  "changeLanguage" : "Change Language",
+  "username": "Username",
+  "password": "Password",
+  "signinWithApple": "Sign in with Apple",
+  "signinWithFacebook": "Sign in with Facebook",
+  "signinWithGoogle": "Sign in with Google",
+  "forgotPassword" : "Forgot Password",
+  "welcomeBack" : "Welcome Back"
 }

@@ -1,5 +1,6 @@
-import 'package:injectable/injectable.dart';
-import 'package:mvvm/core/core.dart';
+
+import 'package:mvvm/core/base/base_repository.dart';
+import 'package:mvvm/core/rx/stream.dart';
 import 'package:mvvm/module/TestModule/model/home_response.dart';
 import 'package:mvvm/module/TestModule/repositories/test_remote_source.dart';
 
@@ -8,7 +9,6 @@ abstract class TestRepository {
   Stream<HomeResponse> getData1();
 }
 
-@Injectable(as: TestRepository)
 class TestRepositoryImpl extends BaseRepository with TestRepository {
   TestRepositoryImpl({required this.remoteSource});
   final TestRemoteSource remoteSource;

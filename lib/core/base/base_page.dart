@@ -1,33 +1,27 @@
-import 'package:mvvm/core/base/base_stateful_widget_page.dart';
-import 'package:mvvm/core/base/base_viewmodel.dart';
+import 'package:mvvm/core/base/app_base_viewmodel.dart';
 import 'package:mvvm/core/rx/activity_indicator.dart';
 import 'package:mvvm/core/rx/error_tracker.dart';
 import 'package:mvvm/core/service/progress_hub.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../error/error.dart';
 import '../rx/disposable_widget.dart';
 
 import 'package:flutter/material.dart';
 
-abstract class Presenter {}
+import 'app_base_page.dart';
 
-abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
-        P extends BaseStatefulWidgetPage> extends State<P>
-    with DisposableWidget
-    implements Presenter {
+abstract class BasePage<VM extends AppBaseViewModel> extends AppBasePage with DisposableWidget  {
+  final VM viewModel;
   late ErrorTracker errorTracker;
   late ActivityIndicator activityIndicator;
-  late VM viewModel;
-  late O output;
-  final viewDidApearing = PublishSubject();
+  final stateLoaded = PublishSubject();
   late BuildContext loaderContext;
+  BasePage({required this.viewModel});
+  
   @override
   void initState() {
-    viewModel = makeViewModel();
     performBinding();
     super.initState();
-    viewDidApearing.add(1);
+    stateLoaded.add(1);
   }
 
   @override
@@ -36,13 +30,13 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
       onTap: () => hideKeyboard(),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: appBar(context),
+        appBar: appNavigation(context),
         body: appBody(context),
       ),
     );
   }
 
-  PreferredSizeWidget? appBar(BuildContext context) {
+  PreferredSizeWidget? appNavigation(BuildContext context) {
     return null;
   }
 
@@ -67,8 +61,6 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
     );
   }
 
-  VM makeViewModel();
-  I makeInput();
   void performBinding() {
     errorTracker = viewModel.errorTracker;
     activityIndicator = viewModel.activityIndicator;
@@ -82,24 +74,11 @@ abstract class BaseStatePage<VM extends BaseViewModel<I, O>, I, O,
         Loader.shared.hide();
       }
     }).canceledBy(this);
-    output = viewModel.transform(makeInput());
-  }
-
-  void handleError(Error error) {
-    switch(error.runtimeType) {
-      case ApiError: {
-        final _err = error as ApiError;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("error: ${_err.message} code: ${_err.code}"),
-        ));
-        break;
-      }
-    default: print("handle error: ${error.stackTrace}");
-    }
   }
 
   @override
   void dispose() {
+    viewModel.cancelSubscriptions();
     cancelSubscriptions();
     super.dispose();
   }

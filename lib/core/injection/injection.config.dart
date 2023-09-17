@@ -31,12 +31,6 @@ _i1.GetIt initGetIt(
     environment,
     environmentFilter,
   );
-  gh.lazySingleton<_i3.HomeRestClient>(() => _i3.HomeRestClient(gh<_i4.Dio>()));
-  gh.factory<_i5.TestRemoteSource>(
-      () => _i5.TestRemoteSourceImpl(gh<_i3.HomeRestClient>()));
-  gh.factory<_i6.TestRepository>(
-      () => _i6.TestRepositoryImpl(remoteSource: gh<_i5.TestRemoteSource>()));
-  gh.factory<_i7.HomeService>(
-      () => _i7.HomeServiceImpl(repository: gh<_i6.TestRepository>()));
+  
   return getIt;
 }

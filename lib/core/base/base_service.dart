@@ -1,2 +1,2 @@
-class BaseService {
+abstract class BaseService {
 }

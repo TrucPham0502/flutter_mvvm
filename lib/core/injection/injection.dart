@@ -1,11 +1,8 @@
-import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:mvvm/core/core.dart';
 import 'package:mvvm/core/injection/injection.config.dart';
-import 'package:mvvm/module/TestModule/repositories/home_rest_client.dart';
-import 'package:mvvm/module/TestModule/test_module.dart';
+import '../../module/module.dart';
 
 final getIt = GetIt.instance;
 @InjectableInit(  
@@ -14,8 +11,17 @@ final getIt = GetIt.instance;
   asExtension: false, // default  
 )  
 void configureDependencies() {
-  getIt.registerLazySingleton<Dio>(
-    () => ApiManager.createDio()
-  );
+
+  getIt.addModule(AppModule());
   initGetIt(getIt);
+}
+
+abstract class InjectionModule {
+  register(GetIt getIt);
+}
+
+extension GetX on GetIt {
+  void addModule(InjectionModule module) {
+    module.register(this);
+  }
 }

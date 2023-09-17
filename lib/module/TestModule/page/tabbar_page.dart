@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm/core/core.dart';
+import 'package:mvvm/core/injection/injection.dart';
 import 'package:mvvm/module/TestModule/page/home_page.dart';
-import 'package:mvvm/module/TestModule/page/recover_page.dart';
 import 'package:mvvm/module/common/colors.dart';
 
+import '../../../core/base/base_stateful_widget_page.dart';
 import '../../common/ui/bottom_navy_bar.dart';
 import 'empty_page.dart';
 
+// ignore: must_be_immutable
 class TabbarPage extends StatefulWidget {
   TabbarPage({Key? key}) : super(key: key);
   List<BaseStatefulWidgetPage> pages = [
-    MyHomePage(),
-    EmptyPage(),
-    EmptyPage(),
-    EmptyPage()
+    getIt.get<MyHomePage>(),
+    getIt.get<EmptyPage>(),
+    getIt.get<EmptyPage>(),
+    getIt.get<EmptyPage>(),
   ];
   @override
   State<StatefulWidget> createState() => _TabbarPage();

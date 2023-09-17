@@ -8,16 +8,18 @@ class RoutesPath {
      static String signin = "/account/signin"; 
      static String forgotPassword = "/account/forgot"; 
      static String foodDetail = "/Food/detail"; 
+    static String cart = "/account/cart"; 
 }
 class Routes {
   static final router = FluroRouter();
 
   static void configureRoutes() {
-    router.define(RoutesPath.home, handler: homeHandler);
-    router.define(RoutesPath.signup, handler: signupHandler);
-    router.define(RoutesPath.forgotPassword, handler: forgotHandler);
-    router.define(RoutesPath.foodDetail, handler: foodDetailHandler);
-    router.define(RoutesPath.signin, handler: signInHandler);
+    router.define(RoutesPath.home, handler: RoutesHandler.shared.homeHandler);
+    router.define(RoutesPath.signup, handler: RoutesHandler.shared.signupHandler);
+    router.define(RoutesPath.forgotPassword, handler: RoutesHandler.shared.forgotHandler);
+    router.define(RoutesPath.foodDetail, handler: RoutesHandler.shared.foodDetailHandler);
+    router.define(RoutesPath.signin, handler:RoutesHandler.shared.signInHandler);
+    router.define(RoutesPath.cart, handler: RoutesHandler.shared.cartHandler);
   }
 
   static push(BuildContext context, String path, { Object? data }) {
